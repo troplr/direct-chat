@@ -1,28 +1,24 @@
-import React, { Component } from 'react';
-import logo from './logo.png';
-import './App.css';
+import React from 'react';
+import { createBrowserHistory } from 'history';
+import { Router, Route, Switch } from 'react-router-dom';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+import indexRoutes from 'routes/index.jsx';
+
+import 'assets/scss/material-kit-react.css?v=1.3.0';
+var hist = createBrowserHistory();
+
+function App() {
+  return (
+    <Router history={hist}>
+      <Switch>
+        {indexRoutes.map((prop, key) => {
+          return (
+            <Route path={prop.path} key={key} component={prop.component} />
+          );
+        })}
+      </Switch>
+    </Router>
+  );
 }
 
 export default App;
