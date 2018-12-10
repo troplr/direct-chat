@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://github.com/lindenquan/direct-chat/raw/master/src/logo.png" height="150" width="150"/>
+  <img src="https://github.com/lindenquan/direct-chat/raw/master/src/logo.png" height="100" width="100"/>
   <p align="center">Direct Chat</p>
   <p align="center" style="font-size: 0.5em">P2P direct instant messaging web app</p>
 </h1>
