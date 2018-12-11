@@ -1,62 +1,53 @@
-import React from "react";
+import React from 'react';
 // @material-ui/core components
-import withStyles from "@material-ui/core/styles/withStyles";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import Icon from "@material-ui/core/Icon";
-// @material-ui/icons
-import Email from "@material-ui/icons/Email";
-import People from "@material-ui/icons/People";
+import withStyles from '@material-ui/core/styles/withStyles';
+import InputAdornment from '@material-ui/core/InputAdornment';
+// icons
+import Email from '@material-ui/icons/Email';
+import People from '@material-ui/icons/People';
+import { FaLock } from 'react-icons/fa';
+import { IoLogoFacebook, IoLogoTwitter, IoLogoGoogle } from 'react-icons/io';
 // core components
-import Header from "components/Header/Header.jsx";
-import HeaderLinks from "components/Header/HeaderLinks.jsx";
-import Footer from "components/Footer/Footer.jsx";
-import GridContainer from "components/Grid/GridContainer.jsx";
-import GridItem from "components/Grid/GridItem.jsx";
-import Button from "components/CustomButtons/Button.jsx";
-import Card from "components/Card/Card.jsx";
-import CardBody from "components/Card/CardBody.jsx";
-import CardHeader from "components/Card/CardHeader.jsx";
-import CardFooter from "components/Card/CardFooter.jsx";
-import CustomInput from "components/CustomInput/CustomInput.jsx";
+import GridContainer from 'components/Grid/GridContainer.jsx';
+import GridItem from 'components/Grid/GridItem.jsx';
+import Button from 'components/CustomButtons/Button.jsx';
+import Card from 'components/Card/Card.jsx';
+import CardBody from 'components/Card/CardBody.jsx';
+import CardHeader from 'components/Card/CardHeader.jsx';
+import CardFooter from 'components/Card/CardFooter.jsx';
+import CustomInput from 'components/CustomInput/CustomInput.jsx';
 
-import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
+import loginPageStyle from 'assets/jss/material-kit-react/views/loginPage.jsx';
 
-import image from "assets/img/bg7.jpg";
+import image from 'assets/img/bg.jpg';
 
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
-      cardAnimaton: "cardHidden"
+      cardAnimaton: 'cardHidden'
     };
   }
   componentDidMount() {
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
     setTimeout(
       function() {
-        this.setState({ cardAnimaton: "" });
+        this.setState({ cardAnimaton: '' });
       }.bind(this),
       700
     );
   }
   render() {
-    const { classes, ...rest } = this.props;
+    const { classes } = this.props;
     return (
       <div>
-        <Header
-          absolute
-          color="transparent"
-          brand="Material Kit React"
-          rightLinks={<HeaderLinks />}
-          {...rest}
-        />
         <div
           className={classes.pageHeader}
           style={{
-            backgroundImage: "url(" + image + ")",
-            backgroundSize: "cover",
-            backgroundPosition: "top center"
+            backgroundImage: 'url(' + image + ')',
+            backgroundSize: '100% 100%',
+            backgroundPosition: 'top center'
           }}
         >
           <div className={classes.container}>
@@ -65,7 +56,7 @@ class LoginPage extends React.Component {
                 <Card className={classes[this.state.cardAnimaton]}>
                   <form className={classes.form}>
                     <CardHeader color="primary" className={classes.cardHeader}>
-                      <h4>Login</h4>
+                      <h4 className={classes.title}>Direct Chat</h4>
                       <div className={classes.socialLine}>
                         <Button
                           justIcon
@@ -74,7 +65,10 @@ class LoginPage extends React.Component {
                           color="transparent"
                           onClick={e => e.preventDefault()}
                         >
-                          <i className={"fab fa-twitter"} />
+                          <IoLogoTwitter
+                            className={classes.inputIcons}
+                            color="white"
+                          />
                         </Button>
                         <Button
                           justIcon
@@ -83,7 +77,10 @@ class LoginPage extends React.Component {
                           color="transparent"
                           onClick={e => e.preventDefault()}
                         >
-                          <i className={"fab fa-facebook"} />
+                          <IoLogoFacebook
+                            className={classes.inputIcons}
+                            color="white"
+                          />
                         </Button>
                         <Button
                           justIcon
@@ -92,11 +89,13 @@ class LoginPage extends React.Component {
                           color="transparent"
                           onClick={e => e.preventDefault()}
                         >
-                          <i className={"fab fa-google-plus-g"} />
+                          <IoLogoGoogle
+                            className={classes.inputIcons}
+                            color="white"
+                          />{' '}
                         </Button>
                       </div>
                     </CardHeader>
-                    <p className={classes.divider}>Or Be Classical</p>
                     <CardBody>
                       <CustomInput
                         labelText="First Name..."
@@ -105,10 +104,10 @@ class LoginPage extends React.Component {
                           fullWidth: true
                         }}
                         inputProps={{
-                          type: "text",
+                          type: 'text',
                           endAdornment: (
                             <InputAdornment position="end">
-                              <People className={classes.inputIconsColor} />
+                              <People className={classes.inputIcons} />
                             </InputAdornment>
                           )
                         }}
@@ -120,10 +119,10 @@ class LoginPage extends React.Component {
                           fullWidth: true
                         }}
                         inputProps={{
-                          type: "email",
+                          type: 'email',
                           endAdornment: (
                             <InputAdornment position="end">
-                              <Email className={classes.inputIconsColor} />
+                              <Email className={classes.inputIcons} />
                             </InputAdornment>
                           )
                         }}
@@ -135,12 +134,10 @@ class LoginPage extends React.Component {
                           fullWidth: true
                         }}
                         inputProps={{
-                          type: "password",
+                          type: 'password',
                           endAdornment: (
                             <InputAdornment position="end">
-                              <Icon className={classes.inputIconsColor}>
-                                lock_outline
-                              </Icon>
+                              <FaLock className={classes.inputIcons} />
                             </InputAdornment>
                           )
                         }}
@@ -148,7 +145,10 @@ class LoginPage extends React.Component {
                     </CardBody>
                     <CardFooter className={classes.cardFooter}>
                       <Button simple color="primary" size="lg">
-                        Get started
+                        Log In
+                      </Button>
+                      <Button simple color="primary" size="lg">
+                        Sign Up
                       </Button>
                     </CardFooter>
                   </form>
@@ -156,7 +156,6 @@ class LoginPage extends React.Component {
               </GridItem>
             </GridContainer>
           </div>
-          <Footer whiteFont />
         </div>
       </div>
     );

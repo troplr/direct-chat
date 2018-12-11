@@ -5,6 +5,12 @@ import { Router, Route, Switch } from 'react-router-dom';
 import indexRoutes from 'routes/index.jsx';
 
 import 'assets/scss/material-kit-react.css?v=1.3.0';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+
+library.add(fab, faLock);
+
 var hist = createBrowserHistory();
 
 function App() {
