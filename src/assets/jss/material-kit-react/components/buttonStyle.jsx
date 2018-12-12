@@ -280,11 +280,12 @@ const buttonStyle = {
     }
   },
   justIcon: {
-    padding: '6px',
+    padding: '8px',
     fontSize: '20px',
-    height: '41px',
-    minWidth: '41px',
-    width: '41px',
+    height: '38px',
+    minWidth: '38px',
+    width: '38px',
+    margin: '0px 5px',
     '& .fab,& .fas,& .far,& .fal,& svg,& .material-icons': {
       marginRight: '0px'
     },

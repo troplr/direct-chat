@@ -3,9 +3,7 @@ import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 // icons
-import Email from '@material-ui/icons/Email';
-import People from '@material-ui/icons/People';
-import { FaLock } from 'react-icons/fa';
+import { FaLock, FaEnvelope } from 'react-icons/fa';
 import { IoLogoFacebook, IoLogoTwitter, IoLogoGoogle } from 'react-icons/io';
 // core components
 import GridContainer from 'components/Grid/GridContainer.jsx';
@@ -19,9 +17,14 @@ import CustomInput from 'components/CustomInput/CustomInput.jsx';
 
 import loginPageStyle from 'assets/jss/material-kit-react/views/loginPage.jsx';
 
-import image from 'assets/img/bg.jpg';
+import image from 'assets/img/pattern.svg';
+import snowEffect from 'assets/js/snow-effect';
 
 class LoginPage extends React.Component {
+  state = {
+    signUp: false
+  };
+
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
@@ -37,9 +40,17 @@ class LoginPage extends React.Component {
       }.bind(this),
       700
     );
+    snowEffect();
   }
+
+  showSignUp = () => {
+    this.setState(state => ({ signUp: !state.signUp }));
+  };
+
   render() {
     const { classes } = this.props;
+    const { signUp } = this.state;
+
     return (
       <div>
         <div
@@ -62,7 +73,8 @@ class LoginPage extends React.Component {
                           justIcon
                           href="#pablo"
                           target="_blank"
-                          color="transparent"
+                          color="twitter"
+                          round
                           onClick={e => e.preventDefault()}
                         >
                           <IoLogoTwitter
@@ -74,7 +86,8 @@ class LoginPage extends React.Component {
                           justIcon
                           href="#pablo"
                           target="_blank"
-                          color="transparent"
+                          color="facebook"
+                          round
                           onClick={e => e.preventDefault()}
                         >
                           <IoLogoFacebook
@@ -86,7 +99,8 @@ class LoginPage extends React.Component {
                           justIcon
                           href="#pablo"
                           target="_blank"
-                          color="transparent"
+                          color="google"
+                          round
                           onClick={e => e.preventDefault()}
                         >
                           <IoLogoGoogle
@@ -98,21 +112,6 @@ class LoginPage extends React.Component {
                     </CardHeader>
                     <CardBody>
                       <CustomInput
-                        labelText="First Name..."
-                        id="first"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          type: 'text',
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <People className={classes.inputIcons} />
-                            </InputAdornment>
-                          )
-                        }}
-                      />
-                      <CustomInput
                         labelText="Email..."
                         id="email"
                         formControlProps={{
@@ -122,7 +121,7 @@ class LoginPage extends React.Component {
                           type: 'email',
                           endAdornment: (
                             <InputAdornment position="end">
-                              <Email className={classes.inputIcons} />
+                              <FaEnvelope className={classes.inputIcons} />
                             </InputAdornment>
                           )
                         }}
@@ -144,10 +143,21 @@ class LoginPage extends React.Component {
                       />
                     </CardBody>
                     <CardFooter className={classes.cardFooter}>
-                      <Button simple color="primary" size="lg">
+                      <Button
+                        simple
+                        color="primary"
+                        size="lg"
+                        className={classes.title}
+                      >
                         Log In
                       </Button>
-                      <Button simple color="primary" size="lg">
+                      <Button
+                        simple
+                        color="primary"
+                        size="lg"
+                        onClick={this.showSignUp}
+                        className={classes.title}
+                      >
                         Sign Up
                       </Button>
                     </CardFooter>
