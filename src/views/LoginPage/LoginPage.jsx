@@ -14,6 +14,8 @@ import CardBody from 'components/Card/CardBody.jsx';
 import CardHeader from 'components/Card/CardHeader.jsx';
 import CardFooter from 'components/Card/CardFooter.jsx';
 import CustomInput from 'components/CustomInput/CustomInput.jsx';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 import loginPageStyle from 'assets/jss/material-kit-react/views/loginPage.jsx';
 
@@ -21,17 +23,15 @@ import image from 'assets/img/pattern.svg';
 import snowEffect from 'assets/js/snow-effect';
 
 class LoginPage extends React.Component {
-  state = {
-    signUp: false
-  };
-
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
-      cardAnimaton: 'cardHidden'
+      cardAnimaton: 'cardHidden',
+      tab: 0
     };
   }
+
   componentDidMount() {
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
     setTimeout(
@@ -43,13 +43,13 @@ class LoginPage extends React.Component {
     snowEffect();
   }
 
-  showSignUp = () => {
-    this.setState(state => ({ signUp: !state.signUp }));
+  handleChange = (event, tab) => {
+    this.setState({ tab });
   };
 
   render() {
     const { classes } = this.props;
-    const { signUp } = this.state;
+    const { tab } = this.state;
 
     return (
       <div>
@@ -110,57 +110,56 @@ class LoginPage extends React.Component {
                         </Button>
                       </div>
                     </CardHeader>
-                    <CardBody>
-                      <CustomInput
-                        labelText="Email..."
-                        id="email"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          type: 'email',
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <FaEnvelope className={classes.inputIcons} />
-                            </InputAdornment>
-                          )
-                        }}
-                      />
-                      <CustomInput
-                        labelText="Password"
-                        id="pass"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          type: 'password',
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <FaLock className={classes.inputIcons} />
-                            </InputAdornment>
-                          )
-                        }}
-                      />
-                    </CardBody>
-                    <CardFooter className={classes.cardFooter}>
-                      <Button
-                        simple
-                        color="primary"
-                        size="lg"
-                        className={classes.title}
-                      >
-                        Log In
-                      </Button>
-                      <Button
-                        simple
-                        color="primary"
-                        size="lg"
-                        onClick={this.showSignUp}
-                        className={classes.title}
-                      >
-                        Sign Up
-                      </Button>
-                    </CardFooter>
+                    <Tabs value={tab} onChange={this.handleChange}>
+                      <Tab label="Log In" />
+                      <Tab label="Sign Up" />
+                    </Tabs>
+                    {tab === 0 && (
+                      <React.Fragment>
+                        <CardBody>
+                          <CustomInput
+                            labelText="Email..."
+                            id="email"
+                            formControlProps={{
+                              fullWidth: true
+                            }}
+                            inputProps={{
+                              type: 'email',
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  <FaEnvelope className={classes.inputIcons} />
+                                </InputAdornment>
+                              )
+                            }}
+                          />
+                          <CustomInput
+                            labelText="Password"
+                            id="pass"
+                            formControlProps={{
+                              fullWidth: true
+                            }}
+                            inputProps={{
+                              type: 'password',
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  <FaLock className={classes.inputIcons} />
+                                </InputAdornment>
+                              )
+                            }}
+                          />
+                        </CardBody>
+                        <CardFooter className={classes.cardFooter}>
+                          <Button
+                            simple
+                            color="primary"
+                            size="lg"
+                            className={classes.title}
+                          >
+                            Log In
+                          </Button>
+                        </CardFooter>
+                      </React.Fragment>
+                    )}
                   </form>
                 </Card>
               </GridItem>
