@@ -1,6 +1,11 @@
 import { container } from 'assets/jss/material-kit-react.jsx';
 
+const textFieldMargin = '4px';
+const textField = { margin: `8px ${textFieldMargin}` };
 const signupPageStyle = {
+  root: {
+    minWidth: '600px'
+  },
   pageHeader: {
     height: '100vh'
   },
@@ -61,6 +66,14 @@ const signupPageStyle = {
   title: {
     fontWeight: 'bold',
     textShadow: '0 3px 0px rgba(0,0,0,0.15)'
+  },
+  halfTextField: {
+    width: `calc(50% - 2 * ${textFieldMargin})`,
+    ...textField
+  },
+  textField: {
+    width: '100%',
+    ...textField
   }
 };
 

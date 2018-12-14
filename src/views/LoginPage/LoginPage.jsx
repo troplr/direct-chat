@@ -16,6 +16,7 @@ import CardFooter from 'components/Card/CardFooter.jsx';
 import CustomInput from 'components/CustomInput/CustomInput.jsx';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import TextField from '@material-ui/core/TextField';
 
 import loginPageStyle from 'assets/jss/material-kit-react/views/loginPage.jsx';
 
@@ -30,6 +31,7 @@ class LoginPage extends React.Component {
       cardAnimaton: 'cardHidden',
       tab: 0
     };
+    this.form = {};
   }
 
   componentDidMount() {
@@ -43,8 +45,13 @@ class LoginPage extends React.Component {
     snowEffect();
   }
 
-  handleChange = (event, tab) => {
+  handleTabChange = (event, tab) => {
     this.setState({ tab });
+  };
+
+  handleInputChange = name => event => {
+    this.form[name] = event.target.value;
+    console.log(this.form);
   };
 
   render() {
@@ -52,7 +59,7 @@ class LoginPage extends React.Component {
     const { tab } = this.state;
 
     return (
-      <div>
+      <div className={classes.root}>
         <div
           className={classes.pageHeader}
           style={{
@@ -110,7 +117,7 @@ class LoginPage extends React.Component {
                         </Button>
                       </div>
                     </CardHeader>
-                    <Tabs value={tab} onChange={this.handleChange}>
+                    <Tabs fullWidth value={tab} onChange={this.handleTabChange}>
                       <Tab label="Log In" />
                       <Tab label="Sign Up" />
                     </Tabs>
@@ -156,6 +163,63 @@ class LoginPage extends React.Component {
                             className={classes.title}
                           >
                             Log In
+                          </Button>
+                        </CardFooter>
+                      </React.Fragment>
+                    )}
+                    {tab === 1 && (
+                      <React.Fragment>
+                        <CardBody>
+                          <TextField
+                            id="first-name"
+                            label="First Name"
+                            className={classes.halfTextField}
+                            margin="normal"
+                            onChange={this.handleInputChange('firstName')}
+                          />
+                          <TextField
+                            id="last-name"
+                            label="Last Name"
+                            className={classes.halfTextField}
+                            margin="normal"
+                            onChange={this.handleInputChange('lastName')}
+                          />
+                          <TextField
+                            id="email"
+                            label="Email"
+                            className={classes.textField}
+                            margin="normal"
+                            onChange={this.handleInputChange('email')}
+                          />
+                          <TextField
+                            id="password1"
+                            label="Password"
+                            className={classes.textField}
+                            margin="normal"
+                            onChange={this.handleInputChange('password1')}
+                            inputProps={{
+                              type: 'password'
+                            }}
+                          />
+                          <TextField
+                            id="password2"
+                            label="Password"
+                            className={classes.textField}
+                            margin="normal"
+                            onChange={this.handleInputChange('password2')}
+                            inputProps={{
+                              type: 'password'
+                            }}
+                          />
+                        </CardBody>
+                        <CardFooter className={classes.cardFooter}>
+                          <Button
+                            simple
+                            color="primary"
+                            size="lg"
+                            className={classes.title}
+                          >
+                            Sign Up{' '}
                           </Button>
                         </CardFooter>
                       </React.Fragment>
