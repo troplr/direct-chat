@@ -14,7 +14,7 @@ function App() {
       <Switch>
         {indexRoutes.map((prop, key) => {
           return (
-            <Route path={prop.path} key={key} component={prop.component} />
+            <Route exact path={prop.path} key={key} component={prop.component} />
           );
         })}
       </Switch>

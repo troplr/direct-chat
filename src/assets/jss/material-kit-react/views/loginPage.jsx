@@ -3,8 +3,8 @@ import { container } from 'assets/jss/material-kit-react.jsx';
 const textFieldMargin = '4px';
 const textField = { margin: `8px ${textFieldMargin}` };
 const signupPageStyle = {
-  root: {
-    minWidth: '600px'
+  cardGridItem: {
+    minWidth: '420px'
   },
   pageHeader: {
     height: '100vh'
