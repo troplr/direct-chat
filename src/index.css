@@ -1,3 +1,7 @@
+img {
+  vertical-align: unset;
+}
+
 body {
   margin: 0;
   padding: 0;

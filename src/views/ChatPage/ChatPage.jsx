@@ -5,6 +5,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Button from 'components/CustomButtons/Button.jsx';
 import GridContainer from 'components/Grid/GridContainer.jsx';
 import GridItem from 'components/Grid/GridItem.jsx';
+import ChatRecentPane from './ChatRecentPane';
 
 import cardPageStyle from 'assets/jss/material-kit-react/views/cardPage.jsx';
 
@@ -28,6 +29,7 @@ class ChatPage extends React.Component {
             <div className={classes.cloud} />
           </div>
         </div>
+        <ChatRecentPane classes={classes} />
       </div>
     );
   }

@@ -1,3 +1,5 @@
+import { relative } from 'upath';
+
 const cloudPseudo = {
   background: '#fff',
   content: '""',
@@ -12,12 +14,14 @@ const cardPageStyle = {
     font: '100% Arial, Sans Serif',
     height: '100vh',
     margin: '0px',
-    padding: '0px',
+    padding: '1rem',
     overflowX: 'hidden',
-    zIndex: -1
+    position: 'relative'
   },
   cloudContainer: {
-    paddingTop: '10vh'
+    position: 'absolute',
+    paddingTop: '10vh',
+    width: '100%'
   },
   '@keyframes animateCloud': {
     '0%': {
@@ -66,6 +70,50 @@ const cardPageStyle = {
       top: '-50px',
       width: '100px'
     }
+  },
+  ChatRecentPaneContainer: {
+    position: 'relative',
+    padding: '1rem 1rem',
+    background: 'hsla(0,0%,100%,.3)',
+    borderRadius: '10px',
+    width: '20rem',
+    height: '100%',
+    boxShadow: '5px 3px 30px black',
+    overflow: 'hidden',
+    borderRadius: '5px'
+  },
+  avatar: {
+    width: '3rem',
+    height: '3rem',
+    borderRadius: '5px',
+    backgroundColor: 'ivory'
+  },
+  userStatusOnline: {
+    outline: 'none',
+    borderColor: 'green',
+    boxShadow: '0 0 5px 3px #27b56a'
+  },
+  userNameSet: {
+    display: 'inline-block',
+    margin: '0 0.5rem',
+    verticalAlign: 'top'
+  },
+  myName: {
+    height: '1.5rem',
+    fontWeight: 'bold',
+    color: 'black',
+    padding: '1px'
+  },
+  online: {
+    fontSize: '0.8rem',
+    color: '#676767'
+  },
+  settingIconContainer: {
+    textAlign: 'center'
+  },
+  customButton: {
+    padding: 'unset',
+    minWidth: 'unset'
   }
 };
 
