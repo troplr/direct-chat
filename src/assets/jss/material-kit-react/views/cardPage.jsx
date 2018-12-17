@@ -21,7 +21,9 @@ const cardPageStyle = {
   cloudContainer: {
     position: 'absolute',
     paddingTop: '10vh',
-    width: '100%'
+    width: '100%',
+    height: '90vh',
+    overflow: 'hidden'
   },
   '@keyframes animateCloud': {
     '0%': {
@@ -74,10 +76,11 @@ const cardPageStyle = {
   ChatRecentPaneContainer: {
     position: 'relative',
     padding: '1rem 1rem',
-    background: 'hsla(0,0%,100%,.3)',
+    background: 'hsla(0,0%,100%,.8)',
     borderRadius: '10px',
     width: '20rem',
-    height: '100%',
+    minHeight: '25rem',
+    height: '90vh',
     boxShadow: '5px 3px 30px black',
     overflow: 'hidden',
     borderRadius: '5px'
