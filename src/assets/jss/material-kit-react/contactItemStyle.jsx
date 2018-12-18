@@ -13,10 +13,12 @@ const contactItemStyle = {
     padding: '0.5rem'
   },
   name: {
-    fontSize: '0.8rem'
+    fontSize: '0.8rem',
+    fontWeight: '500'
   },
   status: {
-    fontSize: '0.7rem'
+    fontSize: '0.7rem',
+    color: 'grey'
   },
   online: {
     boxShadow: '0 0 4px 2px #27b56a'
