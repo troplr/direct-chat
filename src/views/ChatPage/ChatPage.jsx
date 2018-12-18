@@ -1,10 +1,5 @@
 import React from 'react';
-// @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
-// core components
-import Button from 'components/CustomButtons/Button.jsx';
-import GridContainer from 'components/Grid/GridContainer.jsx';
-import GridItem from 'components/Grid/GridItem.jsx';
 import ChatRecentPane from './ChatRecentPane';
 
 import cardPageStyle from 'assets/jss/material-kit-react/views/cardPage.jsx';

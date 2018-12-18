@@ -1,5 +1,3 @@
-import { relative } from 'upath';
-
 const cloudPseudo = {
   background: '#fff',
   content: '""',
@@ -77,7 +75,6 @@ const cardPageStyle = {
     position: 'relative',
     padding: '1rem 1rem',
     background: 'hsla(0,0%,100%,.8)',
-    borderRadius: '10px',
     width: '20rem',
     minHeight: '25rem',
     height: '90vh',
@@ -117,6 +114,17 @@ const cardPageStyle = {
   customButton: {
     padding: 'unset',
     minWidth: 'unset'
+  },
+  tab: {
+    minWidth: 'unset',
+    '& svg': {
+      width: '1rem',
+      height: '1rem',
+      color: '#1d4769'
+    }
+  },
+  tabGroup: {
+    marginTop: '0.3rem'
   }
 };
 
