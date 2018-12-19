@@ -6,13 +6,18 @@ import EditableLabel from 'components/EditableLabel';
 import Button from '@material-ui/core/Button';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Setting from './Setting';
-import Contact from './Contact';
+import SettingPane from './SettingPane';
+import ContactPane from './ContactPane';
 import RecentChat from './RecentChat';
+import Contact from 'model/Contact';
+import chatRecentPaneStyle from 'assets/jss/material-kit-react/chatRecentPaneStyle';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 function ChatRecentPane(props) {
   const { classes } = props;
   const [tab, setTab] = useState(0);
+  const recentChatContacts = fetchRecentChatContact();
+  const allContacts = fetchAllContact();
 
   const handleFocus = name => text => {
     console.log('Focused with text: ' + text);
@@ -27,22 +32,24 @@ function ChatRecentPane(props) {
   };
 
   return (
-    <main className={classes.ChatRecentPaneContainer}>
-      <Button variant="contained" className={classes.customButton}>
-        <img
-          alt="avatar"
-          src={defaultAvatar}
-          className={classnames(classes.avatar, classes.userStatusOnline)}
-        />
-      </Button>
-      <div className={classes.userNameSet}>
-        <EditableLabel
-          text="Linden Quan"
-          className={classes.myName}
-          onFocus={handleFocus('myName')}
-          onFocusOut={handleFocusOut('myName')}
-        />
-        <div className={classes.online}>Online</div>
+    <div className={classes.ChatRecentPaneContainer}>
+      <div className={classes.myContact}>
+        <Button variant="contained" className={classes.customButton}>
+          <img
+            alt="avatar"
+            src={defaultAvatar}
+            className={classnames(classes.avatar, classes.userStatusOnline)}
+          />
+        </Button>
+        <div className={classes.userNameSet}>
+          <EditableLabel
+            text="Linden Quan"
+            className={classes.myName}
+            onFocus={handleFocus('myName')}
+            onFocusOut={handleFocusOut('myName')}
+          />
+          <div className={classes.online}>Online</div>
+        </div>
       </div>
       <Tabs
         fullWidth
@@ -54,11 +61,67 @@ function ChatRecentPane(props) {
         <Tab icon={<FaUsers />} className={classes.tab} />
         <Tab icon={<FaCog />} className={classes.tab} />
       </Tabs>
-      {tab === 0 && <RecentChat />}
-      {tab === 1 && <Contact />}
-      {tab === 2 && <Setting />}
-    </main>
+      {tab === 0 && (
+        <RecentChat
+          contacts={recentChatContacts}
+          className={classes.tabContent}
+        />
+      )}
+      {tab === 1 && (
+        <ContactPane contacts={allContacts} className={classes.tabContent} />
+      )}
+      {tab === 2 && <SettingPane className={classes.tabContent} />}
+    </div>
   );
 }
 
-export default ChatRecentPane;
+function fetchAllContact() {
+  return fetchRecentChatContact();
+}
+
+function fetchRecentChatContact() {
+  return [
+    new Contact(
+      'Win Fred',
+      'online',
+      'https://flyingmeat.com/images/acorn_256x256.png'
+    ),
+    new Contact(
+      'Tom Jerry',
+      'away',
+      'https://www.kasandbox.org/programming-images/avatars/leafers-ultimate.png'
+    ),
+    new Contact(
+      'Jim Karry',
+      'online',
+      'https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-11/256/thinking-face.png'
+    ),
+    new Contact(
+      'Win Fred',
+      'online',
+      'https://flyingmeat.com/images/acorn_256x256.png'
+    ),
+    new Contact(
+      'Tom Jerry',
+      'away',
+      'https://www.kasandbox.org/programming-images/avatars/leafers-ultimate.png'
+    ),
+    new Contact(
+      'Jim Karry',
+      'online',
+      'https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-11/256/thinking-face.png'
+    ),
+    new Contact(
+      'Win Fred',
+      'online',
+      'https://flyingmeat.com/images/acorn_256x256.png'
+    ),
+    new Contact(
+      'Tom Jerry',
+      'away',
+      'https://www.kasandbox.org/programming-images/avatars/leafers-ultimate.png'
+    )
+  ];
+}
+
+export default withStyles(chatRecentPaneStyle)(ChatRecentPane);

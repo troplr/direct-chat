@@ -13,7 +13,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import LoginCard from './LoginCard';
 import SignupCard from './SignupCard';
-import loginPageStyle from 'assets/jss/material-kit-react/views/loginPage.jsx';
+import loginPageStyle from 'assets/jss/material-kit-react/views/loginPage';
 
 import image from 'assets/img/pattern.svg';
 import snowEffect from 'assets/js/snow-effect';

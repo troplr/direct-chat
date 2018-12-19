@@ -2,7 +2,7 @@ import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import ChatRecentPane from './ChatRecentPane';
 
-import cardPageStyle from 'assets/jss/material-kit-react/views/cardPage.jsx';
+import cardPageStyle from 'assets/jss/material-kit-react/views/cardPage';
 
 class ChatPage extends React.Component {
   render() {
@@ -24,7 +24,7 @@ class ChatPage extends React.Component {
             <div className={classes.cloud} />
           </div>
         </div>
-        <ChatRecentPane classes={classes} />
+        <ChatRecentPane />
       </div>
     );
   }

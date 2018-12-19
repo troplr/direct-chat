@@ -1,4 +1,4 @@
-import { container } from 'assets/jss/material-kit-react.jsx';
+import { container } from 'assets/jss/material-kit-react';
 
 const textFieldMargin = '4px';
 const textField = { margin: `8px ${textFieldMargin}` };

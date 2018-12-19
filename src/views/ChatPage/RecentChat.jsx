@@ -1,13 +1,38 @@
 import React from 'react';
 import ContactItem from './ContactItem';
+import { List, ListItem } from '@material-ui/core';
+import recentChatStyle from 'assets/jss/material-kit-react/recentChatStyle';
+import withStyles from '@material-ui/core/styles/withStyles';
+import classNames from 'classnames';
 
 function RecentChat(props) {
+  const { contacts, classes, className } = props;
+
+  const handleContactClick = contact => () => {
+    console.log(contact.name);
+  };
+
   return (
-    <div>
-      <ContactItem name="Winifred Wang" status="online" />
-      <ContactItem name="Susan Jiang" status="away" />
-    </div>
+    <List
+      className={classNames({ [classes.container]: true, [className]: true })}
+    >
+      {contacts.map((contact, index) => (
+        <ListItem
+          key={index}
+          dense
+          button
+          onClick={handleContactClick(contact)}
+          className={classes.listItem}
+        >
+          <ContactItem
+            name={contact.name}
+            status={contact.status}
+            image={contact.image}
+          />
+        </ListItem>
+      ))}
+    </List>
   );
 }
 
-export default RecentChat;
+export default withStyles(recentChatStyle)(RecentChat);
