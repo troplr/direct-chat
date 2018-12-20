@@ -1,5 +1,6 @@
 class Contact {
-  constructor(name, status, image) {
+  constructor(id, name, status, image) {
+    this.id = id;
     this.name = name;
     this.status = status;
     this.image = image;

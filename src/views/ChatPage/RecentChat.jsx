@@ -18,7 +18,7 @@ function RecentChat(props) {
     >
       {contacts.map((contact, index) => (
         <ListItem
-          key={index}
+          key={contact.id}
           dense
           button
           onClick={handleContactClick(contact)}

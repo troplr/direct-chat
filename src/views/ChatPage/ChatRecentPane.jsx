@@ -82,41 +82,31 @@ function fetchAllContact() {
 function fetchRecentChatContact() {
   return [
     new Contact(
+      1,
       'Win Fred',
       'online',
       'https://flyingmeat.com/images/acorn_256x256.png'
     ),
     new Contact(
+      2,
       'Tom Jerry',
       'away',
       'https://www.kasandbox.org/programming-images/avatars/leafers-ultimate.png'
     ),
     new Contact(
+      3,
       'Jim Karry',
       'online',
       'https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-11/256/thinking-face.png'
     ),
     new Contact(
+      4,
       'Win Fred',
       'online',
       'https://flyingmeat.com/images/acorn_256x256.png'
     ),
     new Contact(
-      'Tom Jerry',
-      'away',
-      'https://www.kasandbox.org/programming-images/avatars/leafers-ultimate.png'
-    ),
-    new Contact(
-      'Jim Karry',
-      'online',
-      'https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-11/256/thinking-face.png'
-    ),
-    new Contact(
-      'Win Fred',
-      'online',
-      'https://flyingmeat.com/images/acorn_256x256.png'
-    ),
-    new Contact(
+      5,
       'Tom Jerry',
       'away',
       'https://www.kasandbox.org/programming-images/avatars/leafers-ultimate.png'
