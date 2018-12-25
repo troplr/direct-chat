@@ -12,11 +12,13 @@ function SettingPane(props) {
   const [notificationSwitch, setNotificationSwitch] = useState(true);
   const [soundSwitch, setSoundSwitch] = useState(true);
   const [darkThemeSwitch, setDarkThemeSwitch] = useState(false);
+  const [embededWebPageSwitch, setEmbededWebPageSwitch] = useState(true);
 
   const handleChange = name => event => {
     name === 'notification' && setNotificationSwitch(event.target.checked);
     name === 'sound' && setSoundSwitch(event.target.checked);
     name === 'dark-theme' && setDarkThemeSwitch(event.target.checked);
+    name === 'embeded-webpage' && setEmbededWebPageSwitch(event.target.checked);
 
     console.log(`${name}:${event.target.checked}`);
   };
@@ -38,6 +40,7 @@ function SettingPane(props) {
         classes={{
           label: classes.label
         }}
+        className={classes.hoverUnderline}
       />
       <FormControlLabel
         control={
@@ -52,6 +55,7 @@ function SettingPane(props) {
         classes={{
           label: classes.label
         }}
+        className={classes.hoverUnderline}
       />
       <FormControlLabel
         control={
@@ -66,6 +70,22 @@ function SettingPane(props) {
         classes={{
           label: classes.label
         }}
+        className={classes.hoverUnderline}
+      />
+      <FormControlLabel
+        control={
+          <Switch
+            checked={embededWebPageSwitch}
+            onChange={handleChange('embeded-webpage')}
+            value="embeded-webpage"
+            color="primary"
+          />
+        }
+        label="Embeded Webpage"
+        classes={{
+          label: classes.label
+        }}
+        className={classes.hoverUnderline}
       />
     </FormGroup>
   );

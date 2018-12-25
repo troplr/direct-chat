@@ -26,7 +26,7 @@ function ContactPane(props) {
   };
 
   return (
-    <React.Fragment>
+    <>
       <div className={classes.searchAndAddContact}>
         <TextField
           id="outlined-search"
@@ -51,12 +51,12 @@ function ContactPane(props) {
         </Zoom>
       </div>
       <List
+        dense
         className={classNames({ [classes.container]: true, [className]: true })}
       >
         {contacts.map((contact, index) => (
           <ListItem
             key={index}
-            dense
             button
             onClick={handleContactClick(contact)}
             className={classes.listItem}
@@ -69,7 +69,7 @@ function ContactPane(props) {
           </ListItem>
         ))}
       </List>
-    </React.Fragment>
+    </>
   );
 }
 
