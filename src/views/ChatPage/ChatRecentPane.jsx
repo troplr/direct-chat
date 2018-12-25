@@ -12,6 +12,7 @@ import RecentChat from './RecentChat';
 import Contact from 'model/Contact';
 import chatRecentPaneStyle from 'assets/jss/material-kit-react/chatRecentPaneStyle';
 import withStyles from '@material-ui/core/styles/withStyles';
+import botAvatar from 'assets/img/bot.gif';
 
 function ChatRecentPane(props) {
   const { classes } = props;
@@ -81,12 +82,7 @@ function fetchAllContact() {
 
 function fetchRecentChatContact() {
   return [
-    new Contact(
-      1,
-      'Win Fred',
-      'online',
-      'https://flyingmeat.com/images/acorn_256x256.png'
-    ),
+    new Contact(1, 'AI-Bot', 'online', botAvatar),
     new Contact(
       2,
       'Tom Jerry',

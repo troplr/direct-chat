@@ -7,20 +7,18 @@ const cloudPseudo = {
 
 const cardPageStyle = {
   body: {
-    background: '#00b4ff',
     color: '#333',
     font: '100% Arial, Sans Serif',
-    height: '100vh',
-    margin: '0px',
-    padding: '1rem',
-    overflowX: 'hidden',
-    position: 'relative'
+    height: '100%',
+    position: 'relative',
+    display: 'flex',
+    padding: '2% 1%'
   },
   cloudContainer: {
     position: 'absolute',
-    paddingTop: '10vh',
+    paddingTop: '10%',
     width: '100%',
-    height: '90vh',
+    height: '90%',
     overflow: 'hidden'
   },
   '@keyframes animateCloud': {

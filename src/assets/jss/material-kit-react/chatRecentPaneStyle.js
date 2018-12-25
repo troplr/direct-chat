@@ -3,13 +3,11 @@ import glassBox from './components/glassbox';
 const chatRecentPaneStyle = {
   ChatRecentPaneContainer: {
     ...glassBox,
-    position: 'relative',
-    padding: '1rem 1rem',
-    width: '20rem',
-    minHeight: '25rem',
-    height: '90vh',
-    overflow: 'hidden',
     display: 'flex',
+    flexBasis: '22%',
+    marginRight: '1%',
+    minWidth: '18rem',
+    minHeight: '25rem',
     flexDirection: 'column'
   },
   customButton: {

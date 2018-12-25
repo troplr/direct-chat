@@ -1,6 +1,7 @@
 import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import ChatRecentPane from './ChatRecentPane';
+import ChatView from './ChatView';
 
 import cardPageStyle from 'assets/jss/material-kit-react/views/cardPage';
 
@@ -9,7 +10,7 @@ class ChatPage extends React.Component {
     const { classes } = this.props;
 
     return (
-      <div className={classes.body}>
+      <>
         <div className={classes.cloudContainer}>
           <div className={classes.x2}>
             <div className={classes.cloud} />
@@ -24,8 +25,11 @@ class ChatPage extends React.Component {
             <div className={classes.cloud} />
           </div>
         </div>
-        <ChatRecentPane />
-      </div>
+        <div className={classes.body}>
+          <ChatRecentPane />
+          <ChatView />
+        </div>
+      </>
     );
   }
 }
