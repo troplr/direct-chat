@@ -3,6 +3,7 @@ import contactItemStyle from 'assets/jss/material-kit-react/contactItemStyle';
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { Button } from '@material-ui/core';
 
 function ContactItem(props) {
   const { classes, name, status, image } = props;
@@ -11,15 +12,17 @@ function ContactItem(props) {
 
   return (
     <div className={classes.container}>
-      <img
-        alt="avatar"
-        src={image}
-        className={classnames({
-          [classes.avatar]: true,
-          [classes.online]: online,
-          [classes.offline]: offline
-        })}
-      />
+      <Button className={classes.button}>
+        <img
+          alt="avatar"
+          src={image}
+          className={classnames({
+            [classes.avatar]: true,
+            [classes.online]: online,
+            [classes.offline]: offline
+          })}
+        />
+      </Button>
       <div className={classes.userNameSet}>
         <div className={classes.name}>{name}</div>
         <div className={classes.status}>{status}</div>

@@ -4,7 +4,10 @@ const recentChatStyle = {
   },
   listItem: {
     paddingTop: '0.2rem',
-    paddingBottom: '0.2rem'
+    paddingBottom: '0.2rem',
+    '&:hover button:hover': {
+      backgroundColor: 'unset'
+    }
   }
 };
 

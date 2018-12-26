@@ -1,6 +1,9 @@
+import buttonStyle from 'assets/jss/material-kit-react/components/buttonStyle';
+
 const contactItemStyle = {
   container: {
-    marginTop: '0.5rem'
+    marginTop: '0.5rem',
+    minWidth: '9rem'
   },
   avatar: {
     width: '2.5rem',
@@ -14,11 +17,13 @@ const contactItemStyle = {
   },
   name: {
     fontSize: '0.8rem',
-    fontWeight: '500'
+    fontWeight: '500',
+    userSelect: 'none'
   },
   status: {
     fontSize: '0.7rem',
-    color: 'grey'
+    color: 'grey',
+    userSelect: 'none'
   },
   online: {
     boxShadow: '0 0 4px 2px #27b56a'
@@ -27,13 +32,7 @@ const contactItemStyle = {
     boxShadow: '0 0 4px 2px #ceac0a'
   },
   button: {
-    width: '100%',
-    backgroundColor: 'unset',
-    padding: '0.3rem',
-    fontSize: 'unset',
-    textTransform: 'unset',
-    justifyContent: 'unset',
-    textAlign: 'unset'
+    ...buttonStyle.button
   }
 };
 

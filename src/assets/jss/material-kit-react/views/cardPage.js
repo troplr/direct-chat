@@ -16,9 +16,9 @@ const cardPageStyle = {
   },
   cloudContainer: {
     position: 'absolute',
-    paddingTop: '10%',
+    paddingTop: '5%',
     width: '100%',
-    height: '90%',
+    height: '100%',
     overflow: 'hidden'
   },
   '@keyframes animateCloud': {

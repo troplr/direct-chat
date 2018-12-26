@@ -1,7 +1,6 @@
 import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
-
-import chatViewStyle from 'assets/jss/material-kit-react/chatView';
+import chatViewStyle from 'assets/jss/material-kit-react/chatViewStyle';
 
 function ChatView(props) {
   const { classes } = props;

@@ -1,4 +1,5 @@
 import glassBox from './components/glassbox';
+import buttonStyle from 'assets/jss/material-kit-react/components/buttonStyle';
 
 const chatRecentPaneStyle = {
   ChatRecentPaneContainer: {
@@ -6,13 +7,12 @@ const chatRecentPaneStyle = {
     display: 'flex',
     flexBasis: '22%',
     marginRight: '1%',
-    minWidth: '18rem',
+    minWidth: '19rem',
     minHeight: '25rem',
     flexDirection: 'column'
   },
-  customButton: {
-    padding: 'unset',
-    minWidth: 'unset'
+  button: {
+    ...buttonStyle.button
   },
 
   avatar: {
@@ -37,9 +37,10 @@ const chatRecentPaneStyle = {
     color: 'black',
     padding: '1px'
   },
-  online: {
+  status: {
     fontSize: '0.8rem',
-    color: '#676767'
+    color: '#676767',
+    userSelect: 'none'
   },
   settingIconContainer: {
     textAlign: 'center'

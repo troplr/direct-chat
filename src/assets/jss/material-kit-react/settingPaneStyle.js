@@ -8,7 +8,8 @@ const settingPaneStyle = {
   label: {
     display: 'unset',
     fontWeight: '500',
-    color: 'rgba(4, 1, 19, 0.87)'
+    color: 'rgba(4, 1, 19, 0.87)',
+    userSelect: 'none'
   }
 };
 export default settingPaneStyle;
