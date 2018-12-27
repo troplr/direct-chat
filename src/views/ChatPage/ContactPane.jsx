@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ContactItem from './ContactItem';
 import TextField from '@material-ui/core/TextField';
 import contactStyle from 'assets/jss/material-kit-react/contactStyle';
@@ -11,13 +11,15 @@ import AddIcon from '@material-ui/icons/Add';
 
 function ContactPane(props) {
   const { contacts, classes, className, onContactClick } = props;
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const handleChange = name => event => {
     let searchText = event.target.value;
     console.log(searchText);
   };
 
-  const handleContactClick = contact => () => {
+  const handleContactClick = (contact, index) => () => {
+    setActiveIndex(index);
     onContactClick(contact);
     console.log(contact.name);
   };
@@ -58,8 +60,9 @@ function ContactPane(props) {
         {contacts.map((contact, index) => (
           <ListItem
             key={index}
+            selected={activeIndex === index}
             button
-            onClick={handleContactClick(contact)}
+            onClick={handleContactClick(contact, index)}
             className={classes.listItem}
           >
             <ContactItem
