@@ -10,17 +10,18 @@ import SettingPane from './SettingPane';
 import NotificationPane from './NotificationPane';
 import ContactPane from './ContactPane';
 import RecentChat from './RecentChat';
-import Contact from 'model/Contact';
 import chatRecentPaneStyle from 'assets/jss/material-kit-react/chatRecentPaneStyle';
 import withStyles from '@material-ui/core/styles/withStyles';
-import botAvatar from 'assets/img/bot.gif';
 
-function ChatRecentPane(props) {
-  const { classes } = props;
+function SidePane(props) {
+  const {
+    classes,
+    onContactClick,
+    recentChatContacts,
+    allContacts,
+    notifications
+  } = props;
   const [tab, setTab] = useState(0);
-  const recentChatContacts = fetchRecentChatContact();
-  const allContacts = fetchAllContact();
-  const notifications = fetchNotifications();
 
   const handleFocus = name => text => {
     console.log('Focused with text: ' + text);
@@ -69,10 +70,15 @@ function ChatRecentPane(props) {
         <RecentChat
           contacts={recentChatContacts}
           className={classes.tabContent}
+          onContactClick={onContactClick}
         />
       )}
       {tab === 1 && (
-        <ContactPane contacts={allContacts} className={classes.tabContent} />
+        <ContactPane
+          contacts={allContacts}
+          className={classes.tabContent}
+          onContactClick={onContactClick}
+        />
       )}
       {tab === 2 && (
         <NotificationPane
@@ -85,62 +91,4 @@ function ChatRecentPane(props) {
   );
 }
 
-function fetchNotifications() {
-  return [
-    {
-      contact: new Contact(
-        2,
-        'Tom Jerry',
-        'away',
-        'https://www.kasandbox.org/programming-images/avatars/leafers-ultimate.png'
-      ),
-      type: 'friend-request'
-    },
-
-    {
-      contact: new Contact(
-        4,
-        'Win Fred',
-        'online',
-        'https://flyingmeat.com/images/acorn_256x256.png'
-      ),
-      type: 'friend-request-declined'
-    }
-  ];
-}
-
-function fetchAllContact() {
-  return fetchRecentChatContact();
-}
-
-function fetchRecentChatContact() {
-  return [
-    new Contact(1, 'AI-Bot', 'online', botAvatar),
-    new Contact(
-      2,
-      'Tom Jerry',
-      'away',
-      'https://www.kasandbox.org/programming-images/avatars/leafers-ultimate.png'
-    ),
-    new Contact(
-      3,
-      'Jim Karry',
-      'online',
-      'https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-11/256/thinking-face.png'
-    ),
-    new Contact(
-      4,
-      'Win Fred',
-      'online',
-      'https://flyingmeat.com/images/acorn_256x256.png'
-    ),
-    new Contact(
-      5,
-      'Tom Jerry',
-      'away',
-      'https://www.kasandbox.org/programming-images/avatars/leafers-ultimate.png'
-    )
-  ];
-}
-
-export default withStyles(chatRecentPaneStyle)(ChatRecentPane);
+export default withStyles(chatRecentPaneStyle)(SidePane);

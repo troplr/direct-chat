@@ -10,7 +10,7 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 
 function ContactPane(props) {
-  const { contacts, classes, className } = props;
+  const { contacts, classes, className, onContactClick } = props;
 
   const handleChange = name => event => {
     let searchText = event.target.value;
@@ -18,6 +18,7 @@ function ContactPane(props) {
   };
 
   const handleContactClick = contact => () => {
+    onContactClick(contact);
     console.log(contact.name);
   };
 

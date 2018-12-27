@@ -5,6 +5,8 @@ import ContactItem from './ContactItem';
 import { List, ListItem } from '@material-ui/core';
 import classNames from 'classnames';
 import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
+import Contact from 'model/Contact';
 
 function NotificationPane(props) {
   const { notifications, classes, className } = props;
@@ -64,4 +66,14 @@ function getFriedRequestView(props) {
     </div>
   );
 }
+
+NotificationPane.propTypes = {
+  notifications: PropTypes.arrayOf(
+    PropTypes.shape({
+      contact: PropTypes.instanceOf(Contact),
+      type: PropTypes.oneOf(['friend-request', 'friend-request-declined'])
+    })
+  )
+};
+
 export default withStyles(notificationPaneStyle)(NotificationPane);
