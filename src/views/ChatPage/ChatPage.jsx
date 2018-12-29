@@ -5,9 +5,11 @@ import ChatView from './ChatView';
 import Contact from 'model/Contact';
 import cardPageStyle from 'assets/jss/material-kit-react/views/cardPage';
 import botAvatar from 'assets/img/bot.gif';
+import chatStore from 'stores/ChatStore';
+import { inject, observer } from 'mobx-react';
 
 function ChatPage(props) {
-  const { classes } = props;
+  const { classes, chatStore } = props;
   const recentChatContacts = fetchRecentChatContact();
   const allContacts = fetchAllContact();
   const notifications = fetchNotifications();
@@ -105,4 +107,6 @@ function fetchRecentChatContact() {
   ];
 }
 
-export default withStyles(cardPageStyle)(ChatPage);
+export default withStyles(cardPageStyle)(
+  inject('chatStore')(observer(ChatPage))
+);
