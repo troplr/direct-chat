@@ -5,7 +5,7 @@ const cloudPseudo = {
   zIndex: -1
 };
 
-const cardPageStyle = {
+const chatPageStyle = {
   body: {
     color: '#333',
     font: '100% Arial, Sans Serif',
@@ -71,4 +71,4 @@ const cardPageStyle = {
   }
 };
 
-export default cardPageStyle;
+export default chatPageStyle;

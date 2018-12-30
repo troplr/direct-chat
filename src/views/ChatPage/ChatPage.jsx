@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import SidePane from './SidePane';
 import ChatView from './ChatView';
 import Contact from 'model/Contact';
-import cardPageStyle from 'assets/jss/material-kit-react/views/cardPage';
-import botAvatar from 'assets/img/bot.gif';
+import chatPageStyle from 'assets/jss/material-kit-react/views/chatPage';
 import chatStore from 'stores/ChatStore';
-import { inject, observer } from 'mobx-react';
 
 function ChatPage(props) {
-  const { classes, chatStore } = props;
-  const recentChatContacts = fetchRecentChatContact();
-  const allContacts = fetchAllContact();
+  const { classes } = props;
   const notifications = fetchNotifications();
-  const [currentChat, setCurrentChat] = useState(recentChatContacts[0]);
 
   const onContactClick = contact => {
-    setCurrentChat(contact);
+    chatStore.currentChat = contact;
     console.log(contact.name);
   };
+
+  useEffect(() => {
+    chatStore.fetchAllContact();
+    chatStore.fetchRecentChatContact();
+  });
 
   return (
     <>
@@ -39,11 +39,9 @@ function ChatPage(props) {
       <div className={classes.body}>
         <SidePane
           onContactClick={onContactClick}
-          recentChatContacts={recentChatContacts}
-          allContacts={allContacts}
           notifications={notifications}
         />
-        <ChatView currentChat={currentChat} />
+        <ChatView />
       </div>
     </>
   );
@@ -73,40 +71,4 @@ function fetchNotifications() {
   ];
 }
 
-function fetchAllContact() {
-  return fetchRecentChatContact();
-}
-
-function fetchRecentChatContact() {
-  return [
-    new Contact(1, 'AI-Bot', 'online', botAvatar),
-    new Contact(
-      2,
-      'Tom Jerry',
-      'away',
-      'https://www.kasandbox.org/programming-images/avatars/leafers-ultimate.png'
-    ),
-    new Contact(
-      3,
-      'Jim Karry',
-      'online',
-      'https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-11/256/thinking-face.png'
-    ),
-    new Contact(
-      4,
-      'Win Fred',
-      'online',
-      'https://flyingmeat.com/images/acorn_256x256.png'
-    ),
-    new Contact(
-      5,
-      'Tom Jerry',
-      'away',
-      'https://www.kasandbox.org/programming-images/avatars/leafers-ultimate.png'
-    )
-  ];
-}
-
-export default withStyles(cardPageStyle)(
-  inject('chatStore')(observer(ChatPage))
-);
+export default withStyles(chatPageStyle)(ChatPage);

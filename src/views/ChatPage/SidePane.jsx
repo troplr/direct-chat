@@ -14,13 +14,7 @@ import chatRecentPaneStyle from 'assets/jss/material-kit-react/chatRecentPaneSty
 import withStyles from '@material-ui/core/styles/withStyles';
 
 function SidePane(props) {
-  const {
-    classes,
-    onContactClick,
-    recentChatContacts,
-    allContacts,
-    notifications
-  } = props;
+  const { classes, onContactClick, notifications } = props;
   const [tab, setTab] = useState(0);
 
   const handleFocus = name => text => {
@@ -68,14 +62,12 @@ function SidePane(props) {
       </Tabs>
       {tab === 0 && (
         <RecentChat
-          contacts={recentChatContacts}
           className={classes.tabContent}
           onContactClick={onContactClick}
         />
       )}
       {tab === 1 && (
         <ContactPane
-          contacts={allContacts}
           className={classes.tabContent}
           onContactClick={onContactClick}
         />

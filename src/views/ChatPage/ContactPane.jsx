@@ -8,9 +8,12 @@ import classNames from 'classnames';
 import Zoom from '@material-ui/core/Zoom';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import { observer } from 'mobx-react-lite';
+import chatStore from 'stores/ChatStore';
+import { ReactComponent as Loading } from 'assets/img/loading.svg';
 
 function ContactPane(props) {
-  const { contacts, classes, className, onContactClick } = props;
+  const { classes, className, onContactClick } = props;
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handleChange = name => event => {
@@ -27,6 +30,10 @@ function ContactPane(props) {
   const handleAddContact = () => {
     console.log('add button clicked');
   };
+
+  if (chatStore.loadingAllContacts) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -57,7 +64,7 @@ function ContactPane(props) {
         dense
         className={classNames({ [classes.container]: true, [className]: true })}
       >
-        {contacts.map((contact, index) => (
+        {chatStore.allContacts.map((contact, index) => (
           <ListItem
             key={index}
             selected={activeIndex === index}
@@ -77,4 +84,4 @@ function ContactPane(props) {
   );
 }
 
-export default withStyles(contactStyle)(ContactPane);
+export default withStyles(contactStyle)(observer(ContactPane));
