@@ -11,9 +11,11 @@ import { ReactComponent as Loading } from 'assets/img/loading.svg';
 function RecentChat(props) {
   const { classes, className, onContactClick } = props;
   const [activeIndex, setActiveIndex] = useState(0);
+
   const handleContactClick = (contact, index) => () => {
     onContactClick(contact);
     setActiveIndex(index);
+    contactStore.setCurrentChat(contact);
     console.log(contact.name);
   };
 

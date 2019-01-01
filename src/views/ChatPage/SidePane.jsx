@@ -13,6 +13,7 @@ import chatRecentPaneStyle from 'assets/jss/material-kit-react/chatRecentPaneSty
 import withStyles from '@material-ui/core/styles/withStyles';
 import { observer } from 'mobx-react-lite';
 import contactStore from 'stores/ContactStore';
+import { ReactComponent as Loading } from 'assets/img/loading.svg';
 
 function SidePane(props) {
   const { classes, onContactClick } = props;
@@ -29,6 +30,10 @@ function SidePane(props) {
   const handleTabChange = (event, tab) => {
     setTab(tab);
   };
+
+  if (contactStore.myContact === null) {
+    return <Loading />;
+  }
 
   return (
     <div className={classes.ChatRecentPaneContainer}>

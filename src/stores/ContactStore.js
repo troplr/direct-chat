@@ -33,6 +33,10 @@ class ContactStore {
       this.loadingRecentContacts = false;
     });
   }
+
+  setCurrentChat(contact) {
+    action(() => (this.currentChat = contact));
+  }
 }
 
 const contactStore = new ContactStore();
