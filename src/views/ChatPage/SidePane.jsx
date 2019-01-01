@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import defaultAvatar from 'assets/img/default-avatar.svg';
 import classnames from 'classnames';
 import { FaUsers, FaCog, FaComments, FaBell } from 'react-icons/fa';
 import EditableLabel from 'components/EditableLabel';
@@ -12,9 +11,11 @@ import ContactPane from './ContactPane';
 import RecentChat from './RecentChat';
 import chatRecentPaneStyle from 'assets/jss/material-kit-react/chatRecentPaneStyle';
 import withStyles from '@material-ui/core/styles/withStyles';
+import { observer } from 'mobx-react-lite';
+import contactStore from 'stores/ContactStore';
 
 function SidePane(props) {
-  const { classes, onContactClick, notifications } = props;
+  const { classes, onContactClick } = props;
   const [tab, setTab] = useState(0);
 
   const handleFocus = name => text => {
@@ -35,13 +36,13 @@ function SidePane(props) {
         <Button variant="contained" className={classes.button}>
           <img
             alt="avatar"
-            src={defaultAvatar}
+            src={contactStore.myContact.image}
             className={classnames(classes.avatar, classes.userStatusOnline)}
           />
         </Button>
         <div className={classes.userNameSet}>
           <EditableLabel
-            text="Linden Quan"
+            text={contactStore.myContact.name}
             className={classes.myName}
             onFocus={handleFocus('myName')}
             onFocusOut={handleFocusOut('myName')}
@@ -72,15 +73,10 @@ function SidePane(props) {
           onContactClick={onContactClick}
         />
       )}
-      {tab === 2 && (
-        <NotificationPane
-          className={classes.tabContent}
-          notifications={notifications}
-        />
-      )}
+      {tab === 2 && <NotificationPane className={classes.tabContent} />}
       {tab === 3 && <SettingPane className={classes.tabContent} />}
     </div>
   );
 }
 
-export default withStyles(chatRecentPaneStyle)(SidePane);
+export default withStyles(chatRecentPaneStyle)(observer(SidePane));

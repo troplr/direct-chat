@@ -7,15 +7,22 @@ import classNames from 'classnames';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import Contact from 'model/Contact';
+import notificationStore from 'stores/NotificationStore';
+import { observer } from 'mobx-react-lite';
+import { ReactComponent as Loading } from 'assets/img/loading.svg';
 
 function NotificationPane(props) {
-  const { notifications, classes, className } = props;
+  const { classes, className } = props;
+
+  if (notificationStore.loading) {
+    return <Loading />;
+  }
 
   return (
     <List
       className={classNames({ [classes.container]: true, [className]: true })}
     >
-      {notifications.map((notification, index) => (
+      {notificationStore.notifications.map((notification, index) => (
         <ListItem
           key={notification.contact.id}
           dense
@@ -76,4 +83,4 @@ NotificationPane.propTypes = {
   )
 };
 
-export default withStyles(notificationPaneStyle)(NotificationPane);
+export default withStyles(notificationPaneStyle)(observer(NotificationPane));

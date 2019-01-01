@@ -4,7 +4,7 @@ import { List, ListItem } from '@material-ui/core';
 import recentChatStyle from 'assets/jss/material-kit-react/recentChatStyle';
 import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
-import chatStore from 'stores/ChatStore';
+import contactStore from 'stores/ContactStore';
 import { observer } from 'mobx-react-lite';
 import { ReactComponent as Loading } from 'assets/img/loading.svg';
 
@@ -17,7 +17,7 @@ function RecentChat(props) {
     console.log(contact.name);
   };
 
-  if (chatStore.loadingRecentContacts) {
+  if (contactStore.loadingRecentContacts) {
     return <Loading />;
   }
 
@@ -25,7 +25,7 @@ function RecentChat(props) {
     <List
       className={classNames({ [classes.container]: true, [className]: true })}
     >
-      {chatStore.recentContacts.map((contact, index) => (
+      {contactStore.recentContacts.map((contact, index) => (
         <ListItem
           key={contact.id}
           selected={activeIndex === index}

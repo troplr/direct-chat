@@ -9,7 +9,7 @@ import Zoom from '@material-ui/core/Zoom';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { observer } from 'mobx-react-lite';
-import chatStore from 'stores/ChatStore';
+import contactStore from 'stores/ContactStore';
 import { ReactComponent as Loading } from 'assets/img/loading.svg';
 
 function ContactPane(props) {
@@ -31,7 +31,7 @@ function ContactPane(props) {
     console.log('add button clicked');
   };
 
-  if (chatStore.loadingAllContacts) {
+  if (contactStore.loadingAllContacts) {
     return <Loading />;
   }
 
@@ -64,7 +64,7 @@ function ContactPane(props) {
         dense
         className={classNames({ [classes.container]: true, [className]: true })}
       >
-        {chatStore.allContacts.map((contact, index) => (
+        {contactStore.allContacts.map((contact, index) => (
           <ListItem
             key={index}
             selected={activeIndex === index}

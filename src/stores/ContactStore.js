@@ -1,14 +1,19 @@
 import { observable, action } from 'mobx';
 import api from 'utils/api';
 
-class ChatStore {
+class ContactStore {
+  @observable myContact = null;
   @observable currentChat = null;
-  @observable chatRooms = [];
-  @observable chatMessages = [];
   @observable allContacts = [];
   @observable recentContacts = [];
   @observable loadingAllContacts = true;
   @observable loadingRecentContacts = true;
+
+  fetchMyContact() {
+    api.fetchJSON('/api/fetchMyContact').then(response => {
+      this.myContact = response.json;
+    });
+  }
 
   fetchAllContact() {
     this.loadingAllContacts = true;
@@ -30,6 +35,6 @@ class ChatStore {
   }
 }
 
-const chatStore = new ChatStore();
+const contactStore = new ContactStore();
 
-export default chatStore;
+export default contactStore;

@@ -2,22 +2,23 @@ import React, { useEffect } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import SidePane from './SidePane';
 import ChatView from './ChatView';
-import Contact from 'model/Contact';
 import chatPageStyle from 'assets/jss/material-kit-react/views/chatPage';
-import chatStore from 'stores/ChatStore';
+import contactStore from 'stores/ContactStore';
+import notificationStore from 'stores/NotificationStore';
 
 function ChatPage(props) {
   const { classes } = props;
-  const notifications = fetchNotifications();
 
   const onContactClick = contact => {
-    chatStore.currentChat = contact;
+    contactStore.currentChat = contact;
     console.log(contact.name);
   };
 
   useEffect(() => {
-    chatStore.fetchAllContact();
-    chatStore.fetchRecentChatContact();
+    contactStore.fetchMyContact();
+    contactStore.fetchAllContact();
+    contactStore.fetchRecentChatContact();
+    notificationStore.fetchNotifications();
   });
 
   return (
@@ -37,38 +38,11 @@ function ChatPage(props) {
         </div>
       </div>
       <div className={classes.body}>
-        <SidePane
-          onContactClick={onContactClick}
-          notifications={notifications}
-        />
+        <SidePane onContactClick={onContactClick} />
         <ChatView />
       </div>
     </>
   );
-}
-
-function fetchNotifications() {
-  return [
-    {
-      contact: new Contact(
-        2,
-        'Tom Jerry',
-        'away',
-        'https://www.kasandbox.org/programming-images/avatars/leafers-ultimate.png'
-      ),
-      type: 'friend-request'
-    },
-
-    {
-      contact: new Contact(
-        4,
-        'Win Fred',
-        'online',
-        'https://flyingmeat.com/images/acorn_256x256.png'
-      ),
-      type: 'friend-request-declined'
-    }
-  ];
 }
 
 export default withStyles(chatPageStyle)(ChatPage);
