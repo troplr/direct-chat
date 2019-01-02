@@ -1,5 +1,5 @@
-import ChatPage from 'views/ChatPage/ChatPage.jsx';
-import LoginPage from 'views/LoginPage/LoginPage.jsx';
+import ChatPage from 'views/chatPage/ChatPage.jsx';
+import LoginPage from 'views/loginPage/LoginPage.jsx';
 
 var indexRoutes = [
   {

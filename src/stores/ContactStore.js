@@ -1,5 +1,6 @@
 import { observable, action } from 'mobx';
 import api from 'utils/api';
+import messageStore from 'stores/MessageStore';
 
 class ContactStore {
   @observable myContact = null;
@@ -12,6 +13,7 @@ class ContactStore {
   fetchMyContact() {
     api.fetchJSON('/api/fetchMyContact').then(response => {
       this.myContact = response.json;
+      messageStore.setCurrentSender(this.myContact.id);
     });
   }
 
@@ -26,7 +28,7 @@ class ContactStore {
   fetchRecentChatContact() {
     this.loadingRecentContacts = true;
     api.fetchJSON('/api/fetchRecentChatContact').then(response => {
-      this.currentChat = response.json[0];
+      this.setCurrentChat(response.json[0]);
       response.json.forEach(
         action(contact => this.recentContacts.push(contact))
       );
@@ -35,7 +37,9 @@ class ContactStore {
   }
 
   setCurrentChat(contact) {
-    action(() => (this.currentChat = contact));
+    this.currentChat = contact;
+    messageStore.setCurrentReciver(contact.id);
+    messageStore.setRoomId(contact.id);
   }
 }
 
