@@ -17,7 +17,7 @@ function InputPane(props) {
   const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
   const [emojiAnchorEl, setEmojiAnchorEl] = useState(null);
 
-  let emojiButtonRef = React.createRef();
+  let emojiAnchorRef = React.createRef();
 
   const handleChange = name => event => {
     event.persist();
@@ -25,6 +25,7 @@ function InputPane(props) {
     if (name === 'onKeyPress') {
       if (!event.shiftKey && event.key === 'Enter') {
         if (textValue === '') {
+          event.preventDefault();
           return;
         }
         messageStore.sendMessage(tool.replaceLineToBr(tool.escape(textValue)));
@@ -52,11 +53,11 @@ function InputPane(props) {
   };
 
   useEffect(() => {
-    setEmojiAnchorEl(emojiButtonRef.current);
+    setEmojiAnchorEl(emojiAnchorRef.current);
   });
 
   return (
-    <div>
+    <div ref={emojiAnchorRef}>
       <Popover
         id="simple-popper"
         open={emojiPickerOpen}
@@ -79,7 +80,7 @@ function InputPane(props) {
         className={classes.toolPane}
         onChange={handleToolClick}
       >
-        <ToggleButton value="emoji" buttonRef={emojiButtonRef}>
+        <ToggleButton value="emoji">
           <FaGrinWink />
         </ToggleButton>
         <ToggleButton value="image">
