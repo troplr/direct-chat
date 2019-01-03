@@ -95,6 +95,7 @@ function InputPane(props) {
       </ToggleButtonGroup>
       <div className={classes.inputPane}>
         <TextField
+          contentEditable
           fullWidth
           autoFocus
           value={textValue}
