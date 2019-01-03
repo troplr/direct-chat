@@ -1,6 +1,5 @@
 import glassBox from 'assets/jss/components/glassbox';
 const avatarMarginTop = '5px';
-const inputPaneHeight = '10rem';
 
 const chatView = {
   container: {
@@ -14,8 +13,7 @@ const chatView = {
   },
   displayPane: {
     flexGrow: 1,
-    overflow: 'auto',
-    maxHeight: `calc(100% - ${inputPaneHeight})`
+    overflow: 'auto'
   },
   contactAvatar: {
     flexGrow: 0,
@@ -72,4 +70,3 @@ const chatView = {
 };
 
 export default chatView;
-export { inputPaneHeight };

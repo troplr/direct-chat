@@ -56,7 +56,7 @@ function SidePane(props) {
         </div>
       </div>
       <Tabs
-        fullWidth
+        variant="fullWidth"
         value={tab}
         onChange={handleTabChange}
         className={classes.tabGroup}
