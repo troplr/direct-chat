@@ -97,7 +97,7 @@ class LoginPage extends React.Component {
                       </Button>
                     </div>
                   </CardHeader>
-                  <Tabs fullWidth value={tab} onChange={this.handleTabChange}>
+                  <Tabs value={tab} onChange={this.handleTabChange}>
                     <Tab label="Log In" />
                     <Tab label="Sign Up" />
                   </Tabs>

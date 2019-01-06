@@ -13,7 +13,11 @@ const chatView = {
   },
   displayPane: {
     flexGrow: 1,
-    overflow: 'auto'
+    overflow: 'auto',
+    '& img[type-data="emoji"]': {
+      width: '2rem',
+      margin: '0 0.3rem'
+    }
   },
   contactAvatar: {
     flexGrow: 0,

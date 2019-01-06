@@ -1,68 +1,66 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { observer } from 'mobx-react-lite';
 import messageStore from 'stores/MessageStore';
-import TextField from '@material-ui/core/TextField';
+import ContentEditable from 'views/components/ContentEditable';
 import inputPaneStyle from 'assets/jss/chatPage/chatView/inputPane';
-import tool from 'utils/tool';
 import { FaGrinWink, FaImage, FaFileUpload, FaVideo } from 'react-icons/fa';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Popover from '@material-ui/core/Popover';
 import EmojiPicker from './EmojiPicker';
+import tool from 'utils/tool';
 
 function InputPane(props) {
   const { classes } = props;
-  const [textValue, setTextValue] = useState('');
-  const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
   const [emojiAnchorEl, setEmojiAnchorEl] = useState(null);
-
-  let emojiAnchorRef = React.createRef();
-
-  const handleChange = name => event => {
-    event.persist();
-    const textValue = event.target.value;
-    if (name === 'onKeyPress') {
-      if (!event.shiftKey && event.key === 'Enter') {
-        if (textValue === '') {
-          event.preventDefault();
-          return;
-        }
-        messageStore.sendMessage(tool.replaceLineToBr(tool.escape(textValue)));
-        setTextValue('');
+  const emojiAnchorRef = React.createRef();
+  const inputRef = React.createRef();
+  const handleKeyPress = event => {
+    const html = event.target.innerHTML;
+    if (!event.shiftKey && event.key === 'Enter') {
+      if (html === '') {
         event.preventDefault();
         return;
       }
+      messageStore.sendMessage(html);
+      event.target.innerHTML = '';
+      event.preventDefault();
+      return;
     }
-    setTextValue(textValue);
+    console.log(inputRef.current.caretPosition);
   };
+
+  const handleMouseUp = event => {};
 
   const handleToolClick = (event, tool) => {
     console.log(tool);
     if (tool === 'emoji') {
-      setEmojiPickerOpen(true);
+      setEmojiAnchorEl(emojiAnchorRef.current);
     }
   };
 
-  const handleEmojiPaneClose = () => {
-    setEmojiPickerOpen(false);
+  const handelEmojiExited = () => {
+    tool.setEndOfContenteditable(inputRef.current);
+    inputRef.current.focus();
+  };
+
+  const handleEmojiClose = () => {
+    setEmojiAnchorEl(null);
   };
 
   const handleEmojiClick = emoji => {
-    setTextValue(textValue + '<img src="emoji">');
+    inputRef.current.innerHTML += `<img src=${emoji} type-data='emoji'/>`;
+    setEmojiAnchorEl(null);
   };
-
-  useEffect(() => {
-    setEmojiAnchorEl(emojiAnchorRef.current);
-  });
 
   return (
     <div ref={emojiAnchorRef}>
       <Popover
-        id="simple-popper"
-        open={emojiPickerOpen}
+        id="emoji-popper"
+        open={Boolean(emojiAnchorEl)}
+        onClose={handleEmojiClose}
         anchorEl={emojiAnchorEl}
-        onClose={handleEmojiPaneClose}
+        onExited={handelEmojiExited}
         anchorOrigin={{
           vertical: 'top',
           horizontal: 'left'
@@ -93,27 +91,14 @@ function InputPane(props) {
           <FaVideo />
         </ToggleButton>
       </ToggleButtonGroup>
-      <div className={classes.inputPane}>
-        <TextField
-          contentEditable
-          fullWidth
-          autoFocus
-          value={textValue}
-          multiline
-          onChange={handleChange('textArea')}
-          onKeyPress={handleChange('onKeyPress')}
-          className={classes.textArea}
-          margin="none"
-          variant="filled"
-          rowsMax="5"
-          rows="5"
-          InputProps={{
-            className: classes.input
-          }}
-        />
-      </div>
+      <ContentEditable
+        className={classes.textArea}
+        onKeyPress={handleKeyPress}
+        onMouseUp={handleMouseUp}
+        inputRef={inputRef}
+      />
     </div>
   );
 }
 
-export default withStyles(inputPaneStyle)(observer(InputPane));
+export default withStyles(inputPaneStyle)(InputPane);

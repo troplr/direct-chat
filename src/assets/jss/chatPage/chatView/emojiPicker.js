@@ -1,7 +1,9 @@
 const emojiPicker = {
   container: {
     '& img': {
-      width: '3rem'
+      width: '2rem',
+      margin: '0.5rem',
+      cursor: 'pointer'
     }
   }
 };

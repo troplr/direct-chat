@@ -6,12 +6,6 @@ class MessageStore {
   @observable messages = {};
 
   constructor() {
-    this.messages[1] = [];
-    this.messages[1].push(new Message(1, 0, 'message text from bot to me'));
-    this.messages[2] = [];
-    this.messages[1].push(new Message(0, 1, 'message text from me to bot'));
-    this.messages[2].push(new Message(0, 1, 'message text from me to bot'));
-
     this.sender = null;
     this.currentReceiver = null;
     this.currentRoomId = null;

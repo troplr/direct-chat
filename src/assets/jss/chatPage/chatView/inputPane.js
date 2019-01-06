@@ -3,7 +3,9 @@ const inputPane = {
   inputPane: {
     flexGrow: 0
   },
-  textArea: {},
+  textArea: {
+    height: '5rem'
+  },
   input: {
     padding: '10px'
   },
