@@ -29,7 +29,7 @@ function RecentChat(props) {
     >
       {contactStore.recentContacts.map((contact, index) => (
         <ListItem
-          key={contact.id}
+          key={contact.email}
           selected={activeIndex === index}
           dense
           button

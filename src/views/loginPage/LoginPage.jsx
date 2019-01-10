@@ -45,7 +45,7 @@ class LoginPage extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, ...props } = this.props;
     const { tab } = this.state;
 
     return (
@@ -101,8 +101,8 @@ class LoginPage extends React.Component {
                     <Tab label="Log In" />
                     <Tab label="Sign Up" />
                   </Tabs>
-                  {tab === 0 && <LoginCard />}
-                  {tab === 1 && <SignupCard />}
+                  {tab === 0 && <LoginCard {...props} />}
+                  {tab === 1 && <SignupCard {...props} />}
                 </form>
               </Card>
             </GridItem>

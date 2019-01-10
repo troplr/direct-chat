@@ -24,7 +24,7 @@ function NotificationPane(props) {
     >
       {notificationStore.notifications.map((notification, index) => (
         <ListItem
-          key={notification.contact.id}
+          key={notification.contact.email}
           dense
           className={classes.listItem}
         >

@@ -1,12 +1,13 @@
 import React from 'react';
 import { createBrowserHistory } from 'history';
 import { Router, Route, Switch } from 'react-router-dom';
-
+import Auth from 'Auth/Auth';
 import indexRoutes from 'routes/index.jsx';
 
-var hist = createBrowserHistory();
+const hist = createBrowserHistory();
 
-function App() {
+function App(props) {
+  const auth = new Auth(hist);
   return (
     <Router history={hist}>
       <Switch>
@@ -16,7 +17,7 @@ function App() {
               exact
               path={prop.path}
               key={key}
-              component={prop.component}
+              render={props => <prop.component auth={auth} />}
             />
           );
         })}

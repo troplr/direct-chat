@@ -10,7 +10,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import loginCardStyle from 'assets/jss/loginPage/loginCardStyle';
 
 function LoginCard(props) {
-  const { classes } = props;
+  const { classes, auth } = props;
   const form = {};
   const handleInputChange = name => event => {
     form[name] = event.target.value;
@@ -53,7 +53,7 @@ function LoginCard(props) {
         <Button
           variant="contained"
           color="primary"
-          onClick={e => e.preventDefault()}
+          onClick={e => auth.login()}
           className={classes.button}
         >
           Log In

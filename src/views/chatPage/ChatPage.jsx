@@ -5,21 +5,31 @@ import ChatView from './chatView/ChatView';
 import chatPageStyle from 'assets/jss/chatPage/chatPage';
 import contactStore from 'stores/ContactStore';
 import notificationStore from 'stores/NotificationStore';
+import { withRouter } from 'react-router';
+import { Redirect } from 'react-router-dom';
 
 function ChatPage(props) {
-  const { classes } = props;
+  const { classes, auth } = props;
 
   const onContactClick = contact => {
     contactStore.currentChat = contact;
     console.log(contact.name);
   };
 
+  const isAuthenticated = auth.isAuthenticated();
+
   useEffect(() => {
-    contactStore.fetchMyContact();
-    contactStore.fetchAllContact();
-    contactStore.fetchRecentChatContact();
-    notificationStore.fetchNotifications();
+    if (isAuthenticated) {
+      contactStore.fetchMyContact(auth);
+      contactStore.fetchAllContact();
+      contactStore.fetchRecentChatContact();
+      notificationStore.fetchNotifications();
+    }
   });
+
+  if (!isAuthenticated) {
+    return <Redirect to="/login" />;
+  }
 
   return (
     <>
@@ -38,11 +48,11 @@ function ChatPage(props) {
         </div>
       </div>
       <div className={classes.body}>
-        <SidePane onContactClick={onContactClick} />
+        <SidePane onContactClick={onContactClick} auth={auth} />
         <ChatView />
       </div>
     </>
   );
 }
 
-export default withStyles(chatPageStyle)(ChatPage);
+export default withRouter(withStyles(chatPageStyle)(ChatPage));

@@ -12,15 +12,15 @@ import InputPane from './InputPane';
 function ChatView(props) {
   const { classes } = props;
 
-  if (contactStore.currentChat === null) {
-    return <div />;
+  if (contactStore.currentChat === null || contactStore.myContact === null) {
+    return null;
   }
-  const currentChatId = contactStore.currentChat.id;
-  const myContactId = contactStore.myContact.id;
+  const currentChatId = contactStore.currentChat.email;
+  const myContactId = contactStore.myContact.email;
   const messages = messageStore.messages[currentChatId];
   const avatarCache = {};
   avatarCache[currentChatId] = contactStore.currentChat.image;
-  avatarCache[contactStore.myContact.id] = contactStore.myContact.image;
+  avatarCache[myContactId] = contactStore.myContact.image;
 
   const listItemClass = message => {
     const itemClasses = { [classes.message]: true };

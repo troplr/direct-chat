@@ -1,6 +1,7 @@
 import { observable, action } from 'mobx';
 import api from 'utils/api';
 import messageStore from 'stores/MessageStore';
+import _ from 'lodash';
 
 class ContactStore {
   @observable myContact = null;
@@ -10,11 +11,41 @@ class ContactStore {
   @observable loadingAllContacts = true;
   @observable loadingRecentContacts = true;
 
-  fetchMyContact() {
-    api.fetchJSON('/api/fetchMyContact').then(response => {
-      this.myContact = response.json;
-      messageStore.setCurrentSender(this.myContact.id);
+  fetchMyContact(auth) {
+    auth.getProfile((profile, error) => {
+      if (profile) {
+        this.fetchContactByEmail(profile.email).then(myContact => {
+          if (_.isEmpty(myContact)) {
+            this.setMyContact(profile);
+            messageStore.setCurrentSender(this.myContact.email);
+          }
+        });
+      } else {
+        window.location.href = '/error';
+      }
     });
+  }
+
+  fetchContactByEmail = email => {
+    return api
+      .fetchJSON(`/api/fetchMyContact?email=${email}`)
+      .then(response => {
+        if (_.isEmpty(response.json)) {
+          return {};
+        } else {
+          this.myContact = response.json;
+          messageStore.setCurrentSender(this.myContact.email);
+          return this.myContact;
+        }
+      });
+  };
+
+  setMyContact(profile) {
+    this.myContact = {
+      name: profile.nickname,
+      image: profile.picture,
+      email: profile.email
+    };
   }
 
   fetchAllContact() {
@@ -38,8 +69,8 @@ class ContactStore {
 
   setCurrentChat(contact) {
     this.currentChat = contact;
-    messageStore.setCurrentReciver(contact.id);
-    messageStore.setRoomId(contact.id);
+    messageStore.setCurrentReciver(contact.email);
+    messageStore.setRoomId(contact.email);
   }
 }
 

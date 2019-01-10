@@ -14,11 +14,11 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import { observer } from 'mobx-react-lite';
 import contactStore from 'stores/ContactStore';
 import { ReactComponent as Loading } from 'assets/img/loading.svg';
+import { withRouter } from 'react-router';
 
 function SidePane(props) {
-  const { classes, onContactClick } = props;
+  const { classes, onContactClick, auth } = props;
   const [tab, setTab] = useState(0);
-
   const handleFocus = name => text => {
     console.log('Focused with text: ' + text);
   };
@@ -29,6 +29,11 @@ function SidePane(props) {
 
   const handleTabChange = (event, tab) => {
     setTab(tab);
+  };
+
+  const handleLogout = event => {
+    auth.logout();
+    window.location.href = '/login';
   };
 
   if (contactStore.myContact === null) {
@@ -54,6 +59,9 @@ function SidePane(props) {
           />
           <div className={classes.status}>Online</div>
         </div>
+        <Button className={classes.logout} onClick={handleLogout}>
+          Logout
+        </Button>
       </div>
       <Tabs
         variant="fullWidth"
@@ -84,4 +92,4 @@ function SidePane(props) {
   );
 }
 
-export default withStyles(sidePaneStyle)(observer(SidePane));
+export default withRouter(withStyles(sidePaneStyle)(observer(SidePane)));

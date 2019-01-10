@@ -9,7 +9,21 @@ const chatRecentPaneStyle = {
     marginRight: '1%',
     minWidth: '19rem',
     minHeight: '25rem',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    position: 'relative'
+  },
+  logout: {
+    ...buttonStyle.button,
+    backgroundColor: 'rgba(0, 0, 0, 0.08)',
+    color: 'palevioletred',
+    position: 'absolute',
+    top: '2.2rem',
+    right: '0.5rem',
+    padding: '0.2rem 0.5rem',
+    borderRadius: '3px',
+    '& span': {
+      fontSize: 'small'
+    }
   },
   button: {
     ...buttonStyle.button
