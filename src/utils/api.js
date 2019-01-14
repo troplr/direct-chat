@@ -6,6 +6,8 @@ class Api {
   //   response.json //=> {...}
   // })
   fetchJSON(url, options) {
+    console.log('fetchJSON URL:' + url);
+
     return fetch(url, options).then(function(response) {
       return response.json().then(function(data) {
         return {
@@ -14,6 +16,16 @@ class Api {
           json: data
         };
       });
+    });
+  }
+
+  createNewUser(user) {
+    fetch('/api/createNewUser', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(user)
     });
   }
 }

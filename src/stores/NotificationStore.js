@@ -7,10 +7,14 @@ class NotificationStore {
 
   fetchNotifications() {
     this.loading = true;
-    api.fetchJSON('/api/fetchNotifications').then(response => {
-      response.json.forEach(action(notification => this.notifications.push(notification)));
-      this.loading = false;
-    });
+    api
+      .fetchJSON('/api/fetchNotifications', this.fetchOptions)
+      .then(response => {
+        response.json.forEach(
+          action(notification => this.notifications.push(notification))
+        );
+        this.loading = false;
+      });
   }
 }
 

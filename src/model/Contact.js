@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 class Contact {
   constructor(email, name, status, image) {
     this.email = email;
@@ -7,4 +9,7 @@ class Contact {
   }
 }
 
+Contact.propTypes = {
+  status: PropTypes.oneOf(['online', 'aways'])
+};
 export default Contact;

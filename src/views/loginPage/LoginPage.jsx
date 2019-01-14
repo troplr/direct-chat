@@ -2,7 +2,7 @@ import React from 'react';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 // icons
-import { IoLogoFacebook, IoLogoTwitter, IoLogoGoogle } from 'react-icons/io';
+import { IoLogoFacebook } from 'react-icons/io';
 // core components
 import GridContainer from 'views/components/Grid/GridContainer.jsx';
 import GridItem from 'views/components/Grid/GridItem.jsx';
@@ -14,7 +14,6 @@ import Tab from '@material-ui/core/Tab';
 import LoginCard from './LoginCard';
 import SignupCard from './SignupCard';
 import loginPageStyle from 'assets/jss/loginPage/loginPage';
-
 import image from 'assets/img/pattern.svg';
 import snowEffect from 'assets/js/snow-effect';
 
@@ -27,6 +26,14 @@ class LoginPage extends React.Component {
       tab: 0
     };
     this.form = {};
+    this.clientId = process.env.REACT_APP_FB_CLIENT_ID;
+    this.redirectUrl = process.env.REACT_APP_FB_REDIRECT;
+    this.fbLogin = `https://www.facebook.com/v3.2/dialog/oauth?
+      client_id=${this.clientId}&
+      redirect_uri=${this.redirectUrl}&
+      response_type=code token granted_scopes&
+      auth_type=rerequest&
+      scope=public_profile,email`;
   }
 
   componentDidMount() {
@@ -65,35 +72,11 @@ class LoginPage extends React.Component {
                   <CardHeader color="primary" className={classes.cardHeader}>
                     <h4 className={classes.title}>Direct Chat</h4>
                     <div className={classes.socialLine}>
-                      <Button
-                        href="#pablo"
-                        target="_blank"
-                        onClick={e => e.preventDefault()}
-                      >
-                        <IoLogoTwitter
-                          className={classes.inputIcons}
-                          color="white"
-                        />
-                      </Button>
-                      <Button
-                        href="#pablo"
-                        target="_blank"
-                        onClick={e => e.preventDefault()}
-                      >
+                      <Button href={this.fbLogin} target="_self">
                         <IoLogoFacebook
                           className={classes.inputIcons}
                           color="white"
                         />
-                      </Button>
-                      <Button
-                        href="#pablo"
-                        target="_blank"
-                        onClick={e => e.preventDefault()}
-                      >
-                        <IoLogoGoogle
-                          className={classes.inputIcons}
-                          color="white"
-                        />{' '}
                       </Button>
                     </div>
                   </CardHeader>

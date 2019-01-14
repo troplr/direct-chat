@@ -7,27 +7,39 @@ import contactStore from 'stores/ContactStore';
 import notificationStore from 'stores/NotificationStore';
 import { withRouter } from 'react-router';
 import { Redirect } from 'react-router-dom';
+import Contact from '../../model/Contact';
+import api from 'utils/api';
 
 function ChatPage(props) {
   const { classes, auth } = props;
-
+  const isAuthenticated = auth.hasValidToken();
   const onContactClick = contact => {
     contactStore.currentChat = contact;
     console.log(contact.name);
   };
 
-  const isAuthenticated = auth.isAuthenticated();
+  const createNewUser = () => {
+    const user = new Contact(
+      auth.getEmail(),
+      auth.getName(),
+      'online',
+      auth.getPictureUrl()
+    );
+    api.createNewUser(user);
+    contactStore.setMyContact(user);
+  };
 
   useEffect(() => {
     if (isAuthenticated) {
-      contactStore.fetchMyContact(auth);
+      contactStore.setMyEmail(auth.getEmail());
+      contactStore.fetchMyContact(createNewUser);
       contactStore.fetchAllContact();
       contactStore.fetchRecentChatContact();
       notificationStore.fetchNotifications();
     }
   });
 
-  if (!isAuthenticated) {
+  if (isAuthenticated === false) {
     return <Redirect to="/login" />;
   }
 
