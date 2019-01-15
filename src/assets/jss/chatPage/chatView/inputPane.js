@@ -19,8 +19,7 @@ const inputPane = {
     },
     '& button': {
       minWidth: 'unset',
-      minHeight: 'unset',
-      padding: '4px'
+      minHeight: 'unset'
     }
   }
 };
