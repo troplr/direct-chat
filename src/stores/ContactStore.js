@@ -30,6 +30,7 @@ class ContactStore {
   fetchMyContact(callbackWhenNoContact) {
     this.fetchContactByEmail(this.myEmail).then(myContact => {
       if (_.isEmpty(myContact)) {
+        console.log('empty contact');
         callbackWhenNoContact();
       } else {
         console.log('myContact:' + JSON.stringify(myContact));

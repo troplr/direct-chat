@@ -6,6 +6,7 @@ export default function() {
   var COUNT = 300;
   var body = document.querySelector('body');
   var canvas = document.createElement('canvas');
+  canvas.setAttribute('id', 'snow-canvas');
   var ctx = canvas.getContext('2d');
   var width = body.clientWidth;
   var height = body.clientHeight;

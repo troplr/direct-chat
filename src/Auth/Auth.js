@@ -11,11 +11,12 @@ class Auth {
   }
 
   getName() {
+    console.log('getName:' + this.name);
     return this.name;
   }
 
   getPictureUrl() {
-    return fb.getPictureUrl(this.id);
+    return this.image;
   }
 
   login = () => {};
@@ -32,18 +33,18 @@ class Auth {
     return new Date().getTime() < expireAt;
   };
 
-  setSession = email => {
+  setSession = () => {
     const expireAt = JSON.stringify(
       this.expireIn * 1000 + new Date().getTime()
     );
     localStorage.setItem('expires_at', expireAt);
-    localStorage.setItem('email', email);
+    localStorage.setItem('email', this.email);
   };
 
   isAuthenticatedByFb(params) {
     if (!_.isEmpty(params) && params.access_token) {
       this.accessToken = params.access_token;
-      return this.getProfile();
+      return this.getFbProfile();
     }
 
     return new Promise(resolve => {
@@ -51,19 +52,33 @@ class Auth {
     });
   }
 
-  getProfile = () => {
-    return fb.getProfile(this.accessToken).then(result => {
-      this.name = result.name;
-      this.email = result.email;
-      this.id = result.id;
-      if (result.email) {
-        this.setSession(result.email);
+  getFbProfile = () => {
+    return fb.getProfile(this.accessToken).then(profile => {
+      if (profile.email) {
+        this.setFbProfile(profile);
         return { authenticated: true };
       } else {
         return { authenticated: false };
       }
     });
   };
+
+  setFbProfile = profile => {
+    this.name = profile.name;
+    this.email = profile.email;
+    this.id = profile.id;
+    this.image = fb.getPictureUrl(this.id);
+    this.setSession();
+  };
+
+  setGoogleProfile = profile => {
+    this.name = profile.getName();
+    console.log('setProfileName:' + this.name);
+    this.email = profile.getEmail();
+    this.id = profile.getId();
+    this.image = profile.getImageUrl();
+    this.setSession();
+  };
 }
 
-export default Auth;
+export default new Auth();

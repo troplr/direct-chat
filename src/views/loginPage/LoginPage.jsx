@@ -1,9 +1,6 @@
 import React from 'react';
-// @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
-// icons
 import { IoLogoFacebook } from 'react-icons/io';
-// core components
 import GridContainer from 'views/components/Grid/GridContainer.jsx';
 import GridItem from 'views/components/Grid/GridItem.jsx';
 import Button from '@material-ui/core/Button';
@@ -16,18 +13,21 @@ import SignupCard from './SignupCard';
 import loginPageStyle from 'assets/jss/loginPage/loginPage';
 import image from 'assets/img/pattern.svg';
 import snowEffect from 'assets/js/snow-effect';
+import { withRouter } from 'react-router-dom';
 
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
-    // we use this to make the card to appear after the page has been rendered
     this.state = {
       cardAnimaton: 'cardHidden',
       tab: 0
     };
+    this.history = props.history;
+    this.auth = props.auth;
     this.form = {};
     this.clientId = process.env.REACT_APP_FB_CLIENT_ID;
     this.redirectUrl = process.env.REACT_APP_FB_REDIRECT;
+    this.appUrl = process.env.REACT_APP_URL;
     this.fbLogin = `https://www.facebook.com/v3.2/dialog/oauth?
       client_id=${this.clientId}&
       redirect_uri=${this.redirectUrl}&
@@ -35,9 +35,7 @@ class LoginPage extends React.Component {
       auth_type=rerequest&
       scope=public_profile,email`;
   }
-
   componentDidMount() {
-    // we add a hidden class to the card and after 700 ms we delete it and the transition appears
     setTimeout(
       function() {
         this.setState({ cardAnimaton: '' });
@@ -45,10 +43,30 @@ class LoginPage extends React.Component {
       700
     );
     snowEffect();
+    window.gapi.signin2.render('g-signin2', {
+      scope: 'https://www.googleapis.com/auth/plus.login',
+      width: 25,
+      height: 25,
+      onsuccess: this.onSignIn
+    });
   }
 
   handleTabChange = (event, tab) => {
     this.setState({ tab });
+  };
+
+  removeSnow = () => {
+    var element = document.getElementById('snow-canvas');
+    element.parentNode.removeChild(element);
+  };
+
+  onSignIn = googleUser => {
+    const profile = googleUser.getBasicProfile();
+    if (profile.getEmail()) {
+      this.auth.setGoogleProfile(profile);
+      this.removeSnow();
+      this.history.push('/');
+    }
   };
 
   render() {
@@ -75,12 +93,19 @@ class LoginPage extends React.Component {
                       <Button href={this.fbLogin} target="_self">
                         <IoLogoFacebook
                           className={classes.inputIcons}
-                          color="white"
+                          color="#3b5998"
                         />
+                      </Button>
+                      <Button href={this.googleLogin} target="_self">
+                        <div className={classes.inputIcons} id="g-signin2" />
                       </Button>
                     </div>
                   </CardHeader>
-                  <Tabs value={tab} onChange={this.handleTabChange}>
+                  <Tabs
+                    variant="fullWidth"
+                    value={tab}
+                    onChange={this.handleTabChange}
+                  >
                     <Tab label="Log In" />
                     <Tab label="Sign Up" />
                   </Tabs>
@@ -96,4 +121,4 @@ class LoginPage extends React.Component {
   }
 }
 
-export default withStyles(loginPageStyle)(LoginPage);
+export default withRouter(withStyles(loginPageStyle)(LoginPage));

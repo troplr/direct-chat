@@ -54,8 +54,12 @@ const loginPageStyle = {
     padding: '0'
   },
   inputIcons: {
-    color: '#495057',
-    fontSize: '24px'
+    backgroundColor: 'white',
+    fontSize: '24px',
+    borderRadius: '3px',
+    display: 'inline-block',
+    height: '25px',
+    width: '25px'
   },
   title: {
     fontWeight: 'bold',

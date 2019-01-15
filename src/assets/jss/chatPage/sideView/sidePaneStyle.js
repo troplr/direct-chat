@@ -15,7 +15,8 @@ const chatRecentPaneStyle = {
   logout: {
     ...buttonStyle.button,
     backgroundColor: 'rgba(0, 0, 0, 0.08)',
-    color: 'palevioletred',
+    color: '#fd2525',
+    fontWeight: 'bold',
     position: 'absolute',
     top: '2.2rem',
     right: '0.5rem',
@@ -23,6 +24,10 @@ const chatRecentPaneStyle = {
     borderRadius: '3px',
     '& span': {
       fontSize: 'small'
+    },
+    '&:hover': {
+      color: 'white',
+      backgroundColor: '#fd2525'
     }
   },
   button: {

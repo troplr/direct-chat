@@ -1,13 +1,12 @@
 import React from 'react';
 import { createBrowserHistory } from 'history';
 import { Router, Route, Switch } from 'react-router-dom';
-import Auth from 'Auth/Auth';
+import auth from 'Auth/Auth';
 import indexRoutes from 'routes/index.jsx';
 
 const hist = createBrowserHistory();
 
 function App(props) {
-  const auth = new Auth(hist);
   return (
     <Router history={hist}>
       <Switch>
