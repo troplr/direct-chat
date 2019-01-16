@@ -12,6 +12,9 @@ const signUpCardStyle = {
   textField: {
     width: '100%',
     ...textField
+  },
+  tooltip: {
+    backgroundColor: 'black'
   }
 };
 

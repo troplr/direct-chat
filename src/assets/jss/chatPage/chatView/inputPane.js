@@ -19,7 +19,11 @@ const inputPane = {
     },
     '& button': {
       minWidth: 'unset',
-      minHeight: 'unset'
+      minHeight: 'unset',
+      padding: '0 0.5rem'
+    },
+    '& button svg:hover': {
+      color: '#5555d6'
     }
   }
 };
