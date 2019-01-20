@@ -1,13 +1,20 @@
 import _ from 'lodash';
-import fb from 'utils/fb.js';
+import fb from 'utils/fb';
+import rsa from 'utils/rsa';
 
 class Auth {
   constructor() {
     this.expireIn = Number(process.env.REACT_APP_EXPIRE_IN_SECONDS);
+    this.token = null;
+    this.rsa = rsa;
   }
 
   getEmail() {
     return localStorage.getItem('email');
+  }
+
+  getToken() {
+    return localStorage.getItem('token');
   }
 
   getName() {
@@ -25,15 +32,21 @@ class Auth {
     localStorage.removeItem('token');
     localStorage.removeItem('email');
     localStorage.removeItem('expires_at');
-    this.userProfile = null;
   };
 
   hasValidToken = () => {
     const expireAt = Number(localStorage.getItem('expires_at'));
-    return new Date().getTime() < expireAt;
+    const token = localStorage.getItem('token');
+    const isValid = new Date().getTime() < expireAt;
+    if (isValid && !token) {
+      return undefined;
+    }
+    return isValid;
   };
 
-  setSession = () => {
+  setSession = async () => {
+    const cipher = await this.rsa.encrypt(this.email);
+    localStorage.setItem('token', cipher);
     const expireAt = JSON.stringify(
       this.expireIn * 1000 + new Date().getTime()
     );
@@ -41,7 +54,7 @@ class Auth {
     localStorage.setItem('email', this.email);
   };
 
-  isAuthenticatedByFb(params) {
+  isAuthenticatedByFb = params => {
     if (!_.isEmpty(params) && params.access_token) {
       this.accessToken = params.access_token;
       return this.getFbProfile();
@@ -50,7 +63,7 @@ class Auth {
     return new Promise(resolve => {
       resolve({ authenticated: false });
     });
-  }
+  };
 
   getFbProfile = () => {
     return fb.getProfile(this.accessToken).then(profile => {
@@ -73,7 +86,6 @@ class Auth {
 
   setGoogleProfile = profile => {
     this.name = profile.getName();
-    console.log('setProfileName:' + this.name);
     this.email = profile.getEmail();
     this.id = profile.getId();
     this.image = profile.getImageUrl();

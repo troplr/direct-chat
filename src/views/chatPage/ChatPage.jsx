@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import SidePane from './sideView/SidePane';
 import ChatView from './chatView/ChatView';
@@ -9,10 +9,11 @@ import { withRouter } from 'react-router';
 import { Redirect } from 'react-router-dom';
 import Contact from '../../model/Contact';
 import api from 'utils/api';
+import _ from 'lodash';
 
 function ChatPage(props) {
   const { classes, auth } = props;
-  const isAuthenticated = auth.hasValidToken();
+  const [isAuthed, setAuthed] = useState(undefined);
   const onContactClick = contact => {
     contactStore.currentChat = contact;
     console.log(contact.name);
@@ -29,17 +30,29 @@ function ChatPage(props) {
     contactStore.setMyContact(user);
   };
 
+  const hasValidToken = async () => {
+    setAuthed(await auth.hasValidToken());
+  };
+
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthed === undefined) {
+      hasValidToken();
+    } else if (isAuthed) {
       contactStore.setMyEmail(auth.getEmail());
-      contactStore.fetchMyContact(createNewUser);
+      contactStore.fetchMyContact().then(contact => {
+        if (_.isEmpty(contact)) {
+          createNewUser();
+        }
+      });
       contactStore.fetchAllContact();
       contactStore.fetchRecentChatContact();
       notificationStore.fetchNotifications();
     }
   });
 
-  if (isAuthenticated === false) {
+  if (isAuthed === undefined) {
+    return null;
+  } else if (isAuthed === false) {
     return <Redirect to="/login" />;
   }
 

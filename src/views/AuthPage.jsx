@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router';
 import { Redirect } from 'react-router-dom';
 import queryString from 'query-string';
-import contactStore from 'stores/ContactStore';
 
 function AuthPage(props) {
   const { auth, location } = props;
@@ -13,8 +12,6 @@ function AuthPage(props) {
     if (isAuthenticated === undefined) {
       auth.isAuthenticatedByFb(params).then(result => {
         if (result.authenticated) {
-          contactStore.setMyEmail(auth.getEmail());
-          contactStore.setMyName(auth.getName());
           setAuthenticated(true);
         } else {
           setAuthenticated(false);
@@ -24,13 +21,10 @@ function AuthPage(props) {
   });
 
   if (isAuthenticated) {
-    console.log('/');
     return <Redirect to="/" />;
   }
 
   if (isAuthenticated === false) {
-    console.log('/login');
-
     return <Redirect to="/login" />;
   }
 

@@ -27,40 +27,38 @@ class ContactStore {
     return this.myName;
   }
 
-  fetchMyContact(callbackWhenNoContact) {
-    this.fetchContactByEmail(this.myEmail).then(myContact => {
+  fetchMyContact() {
+    return this.fetchContact().then(myContact => {
       if (_.isEmpty(myContact)) {
         console.log('empty contact');
-        callbackWhenNoContact();
+        return {};
       } else {
         console.log('myContact:' + JSON.stringify(myContact));
         this.setMyContact(myContact);
+        return myContact;
       }
-      messageStore.setCurrentSender(this.myEmail);
     });
   }
 
-  fetchContactByEmail = email => {
-    return api
-      .fetchJSON(`/api/fetchMyContact?email=${email}`, this.fetchOptions)
-      .then(response => {
-        if (_.isEmpty(response.json)) {
-          return {};
-        } else {
-          this.myContact = response.json;
-          messageStore.setCurrentSender(this.myContact.email);
-          return this.myContact;
-        }
-      });
+  fetchContact = () => {
+    return api.fetchMyContact().then(response => {
+      if (_.isEmpty(response.json)) {
+        return {};
+      } else {
+        this.setMyContact(response.json);
+        return this.myContact;
+      }
+    });
   };
 
   setMyContact(contact) {
     this.myContact = contact;
+    messageStore.setCurrentSender(this.myContact.email);
   }
 
   fetchAllContact() {
     this.loadingAllContacts = true;
-    api.fetchJSON('/api/fetchAllContact', this.fetchOptions).then(response => {
+    api.fetchAllContact().then(response => {
       response.json.forEach(action(contact => this.allContacts.push(contact)));
       this.loadingAllContacts = false;
     });
@@ -68,15 +66,13 @@ class ContactStore {
 
   fetchRecentChatContact() {
     this.loadingRecentContacts = true;
-    api
-      .fetchJSON('/api/fetchRecentChatContact', this.fetchOptions)
-      .then(response => {
-        this.setCurrentChat(response.json[0]);
-        response.json.forEach(
-          action(contact => this.recentContacts.push(contact))
-        );
-        this.loadingRecentContacts = false;
-      });
+    api.fetchRecentChatContact().then(response => {
+      this.setCurrentChat(response.json[0]);
+      response.json.forEach(
+        action(contact => this.recentContacts.push(contact))
+      );
+      this.loadingRecentContacts = false;
+    });
   }
 
   setCurrentChat(contact) {

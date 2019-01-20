@@ -9,7 +9,7 @@ class FB {
 
   getProfile(token, callback) {
     return api.fetchJSON(this.graphUrl + token).then(response => {
-      console.log(response.json);
+      console.log(`FB token: ${JSON.stringify(response.json)}`);
       return response.json;
     });
   }

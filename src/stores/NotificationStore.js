@@ -8,7 +8,7 @@ class NotificationStore {
   fetchNotifications() {
     this.loading = true;
     api
-      .fetchJSON('/api/fetchNotifications', this.fetchOptions)
+      .fetchNotifications()
       .then(response => {
         response.json.forEach(
           action(notification => this.notifications.push(notification))

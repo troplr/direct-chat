@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBrowserHistory } from 'history';
 import { Router, Route, Switch } from 'react-router-dom';
-import auth from 'Auth/Auth';
+import auth from 'auth/auth';
 import indexRoutes from 'routes/index.jsx';
 
 const hist = createBrowserHistory();
