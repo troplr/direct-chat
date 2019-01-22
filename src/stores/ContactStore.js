@@ -56,23 +56,19 @@ class ContactStore {
     messageStore.setCurrentSender(this.myContact.email);
   }
 
-  fetchAllContact() {
+  async fetchAllContact() {
     this.loadingAllContacts = true;
-    api.fetchAllContact().then(response => {
-      response.json.forEach(action(contact => this.allContacts.push(contact)));
-      this.loadingAllContacts = false;
-    });
+    const response = await api.fetchAllContact();
+    response.json.forEach(action(contact => this.allContacts.push(contact)));
+    this.loadingAllContacts = false;
   }
 
-  fetchRecentChatContact() {
+  async fetchRecentChatContact() {
     this.loadingRecentContacts = true;
-    api.fetchRecentChatContact().then(response => {
-      this.setCurrentChat(response.json[0]);
-      response.json.forEach(
-        action(contact => this.recentContacts.push(contact))
-      );
-      this.loadingRecentContacts = false;
-    });
+    const response = await api.fetchRecentChatContact();
+    this.setCurrentChat(response.json[0]);
+    response.json.forEach(action(contact => this.recentContacts.push(contact)));
+    this.loadingRecentContacts = false;
   }
 
   setCurrentChat(contact) {

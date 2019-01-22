@@ -5,16 +5,13 @@ class NotificationStore {
   @observable notifications = [];
   @observable loading = true;
 
-  fetchNotifications() {
+  async fetchNotifications() {
     this.loading = true;
-    api
-      .fetchNotifications()
-      .then(response => {
-        response.json.forEach(
-          action(notification => this.notifications.push(notification))
-        );
-        this.loading = false;
-      });
+    const response = await api.fetchNotifications();
+    response.json.forEach(
+      action(notification => this.notifications.push(notification))
+    );
+    this.loading = false;
   }
 }
 

@@ -6,24 +6,28 @@ class Api {
   }
 
   async fetchJSON(url, options) {
-    try {
-      const response = await fetch(url, options);
-      const text = await response.text();
-      let data = {};
-      if (text) {
-        data = JSON.parse(text);
-      }
-      return {
-        status: response.status,
-        headers: response.headers,
-        json: data
+    let data = {};
+
+    const response = await fetch(url, options);
+    if (response.status >= 400) {
+      const error = {
+        message: `Error on ${url} with status ${response.status}`
       };
-    } catch (err) {
-      console.log(err);
+      throw error;
     }
+    const text = await response.text();
+    if (text) {
+      data = JSON.parse(text);
+    }
+
+    return {
+      status: response.status,
+      headers: response.headers,
+      json: data
+    };
   }
 
-  api(url, body) {
+  async api(url, body) {
     console.log('fetchJSON URL:' + url);
     body = body ? body : {};
     body = Object.assign(body, { token: auth.getToken() });
@@ -35,27 +39,27 @@ class Api {
       body: JSON.stringify(body)
     };
 
-    return this.fetchJSON(this.prefix + url, options);
+    return await this.fetchJSON(this.prefix + url, options);
   }
 
-  fetchMyContact() {
-    return this.api(`fetchMyContact`);
+  async fetchMyContact() {
+    return await this.api(`fetchMyContact`);
   }
 
-  fetchAllContact() {
-    return this.api('fetchAllContact');
+  async fetchAllContact() {
+    return await this.api('fetchAllContact');
   }
 
-  fetchNotifications() {
-    return this.api('fetchNotifications');
+  async fetchNotifications() {
+    return await this.api('fetchNotifications');
   }
 
-  fetchRecentChatContact() {
-    return this.api('fetchRecentChatContact');
+  async fetchRecentChatContact() {
+    return await this.api('fetchRecentChatContact');
   }
 
-  createNewUser(user) {
-    this.api('createNewUser', user);
+  async createNewUser(user) {
+    await this.api('createNewUser', user);
   }
 }
 
