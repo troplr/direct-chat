@@ -27,10 +27,16 @@ class Api {
     };
   }
 
-  async api(url, body) {
-    console.log('fetchJSON URL:' + url);
+  async api(method, body, withToken = true) {
+    console.log('API Method:' + method);
     body = body ? body : {};
-    body = Object.assign(body, { token: auth.getToken() });
+    if (withToken) {
+      body = Object.assign(body, {
+        token: auth.getToken(),
+        email: auth.getEmail()
+      });
+    }
+
     const options = {
       method: 'POST',
       headers: {
@@ -39,7 +45,8 @@ class Api {
       body: JSON.stringify(body)
     };
 
-    return await this.fetchJSON(this.prefix + url, options);
+    const response = await this.fetchJSON(this.prefix + method, options);
+    return response.json;
   }
 
   async fetchMyContact() {
@@ -60,6 +67,10 @@ class Api {
 
   async createNewUser(user) {
     await this.api('createNewUser', user);
+  }
+
+  async createUserWithFbToken(token) {
+    return await this.api('fb/createUser', token, false);
   }
 }
 

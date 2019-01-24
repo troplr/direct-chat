@@ -7,10 +7,8 @@ class NotificationStore {
 
   async fetchNotifications() {
     this.loading = true;
-    const response = await api.fetchNotifications();
-    response.json.forEach(
-      action(notification => this.notifications.push(notification))
-    );
+    const json = await api.fetchNotifications();
+    json.forEach(action(notification => this.notifications.push(notification)));
     this.loading = false;
   }
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import SidePane from './sideView/SidePane';
 import ChatView from './chatView/ChatView';
@@ -6,54 +6,29 @@ import chatPageStyle from 'assets/jss/chatPage/chatPage';
 import contactStore from 'stores/ContactStore';
 import notificationStore from 'stores/NotificationStore';
 import { withRouter } from 'react-router';
-import { Redirect } from 'react-router-dom';
-import Contact from '../../model/Contact';
-import api from 'utils/api';
-import _ from 'lodash';
 
 function ChatPage(props) {
-  const { classes, auth } = props;
-  const [isAuthed, setAuthed] = useState(undefined);
+  const { classes, auth, history } = props;
+  const isAuthed = auth.hasValidToken();
+
   const onContactClick = contact => {
     contactStore.currentChat = contact;
     console.log(contact.name);
   };
 
-  const createNewUser = () => {
-    const user = new Contact(
-      auth.getEmail(),
-      auth.getName(),
-      'online',
-      auth.getPictureUrl()
-    );
-    api.createNewUser(user);
-    contactStore.setMyContact(user);
-  };
-
-  const hasValidToken = async () => {
-    setAuthed(await auth.hasValidToken());
-  };
-
   useEffect(() => {
-    if (isAuthed === undefined) {
-      hasValidToken();
-    } else if (isAuthed) {
-      contactStore.setMyEmail(auth.getEmail());
-      contactStore.fetchMyContact().then(contact => {
-        if (_.isEmpty(contact)) {
-          createNewUser();
-        }
-      });
+    if (isAuthed) {
+      contactStore.setMyContact(auth.getUser());
       contactStore.fetchAllContact();
       contactStore.fetchRecentChatContact();
       notificationStore.fetchNotifications();
+    } else {
+      history.replace('/login');
     }
   });
 
-  if (isAuthed === undefined) {
+  if (!isAuthed) {
     return null;
-  } else if (isAuthed === false) {
-    return <Redirect to="/login" />;
   }
 
   return (

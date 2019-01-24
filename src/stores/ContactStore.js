@@ -11,20 +11,8 @@ class ContactStore {
   @observable loadingAllContacts = true;
   @observable loadingRecentContacts = true;
 
-  setMyEmail(email) {
-    this.myEmail = email;
-  }
-
-  getMyEmail(email) {
+  getMyEmail() {
     return this.myEmail;
-  }
-
-  setMyName(name) {
-    this.myName = name;
-  }
-
-  getMyName(name) {
-    return this.myName;
   }
 
   fetchMyContact() {
@@ -41,11 +29,11 @@ class ContactStore {
   }
 
   fetchContact = () => {
-    return api.fetchMyContact().then(response => {
-      if (_.isEmpty(response.json)) {
+    return api.fetchMyContact().then(json => {
+      if (_.isEmpty(json)) {
         return {};
       } else {
-        this.setMyContact(response.json);
+        this.setMyContact(json);
         return this.myContact;
       }
     });
@@ -53,21 +41,22 @@ class ContactStore {
 
   setMyContact(contact) {
     this.myContact = contact;
+    this.myEmail = contact.email;
     messageStore.setCurrentSender(this.myContact.email);
   }
 
   async fetchAllContact() {
     this.loadingAllContacts = true;
-    const response = await api.fetchAllContact();
-    response.json.forEach(action(contact => this.allContacts.push(contact)));
+    const json = await api.fetchAllContact();
+    json.forEach(action(contact => this.allContacts.push(contact)));
     this.loadingAllContacts = false;
   }
 
   async fetchRecentChatContact() {
     this.loadingRecentContacts = true;
-    const response = await api.fetchRecentChatContact();
-    this.setCurrentChat(response.json[0]);
-    response.json.forEach(action(contact => this.recentContacts.push(contact)));
+    const json = await api.fetchRecentChatContact();
+    this.setCurrentChat(json[0]);
+    json.forEach(action(contact => this.recentContacts.push(contact)));
     this.loadingRecentContacts = false;
   }
 

@@ -1,29 +1,14 @@
-import _ from 'lodash';
-import fb from 'utils/fb';
-import rsa from 'utils/rsa';
-
 class Auth {
-  constructor() {
-    this.expireIn = Number(process.env.REACT_APP_EXPIRE_IN_SECONDS);
-    this.token = null;
-    this.rsa = rsa;
-  }
-
-  getEmail() {
-    return localStorage.getItem('email');
-  }
-
   getToken() {
     return localStorage.getItem('token');
   }
 
-  getName() {
-    console.log('getName:' + this.name);
-    return this.name;
+  getEmail() {
+    return this.getUser().email;
   }
 
-  getPictureUrl() {
-    return this.image;
+  getUser() {
+    return JSON.parse(localStorage.getItem('user'));
   }
 
   login = () => {};
@@ -38,50 +23,18 @@ class Auth {
     const expireAt = Number(localStorage.getItem('expires_at'));
     const token = localStorage.getItem('token');
     const isValid = new Date().getTime() < expireAt;
-    if (isValid && !token) {
-      return undefined;
+    if (isValid && token) {
+      return true;
     }
-    return isValid;
+    return false;
   };
 
-  setSession = async () => {
-    const cipher = await this.rsa.encrypt(this.email);
-    localStorage.setItem('token', cipher);
-    const expireAt = JSON.stringify(
-      this.expireIn * 1000 + new Date().getTime()
-    );
-    localStorage.setItem('expires_at', expireAt);
-    localStorage.setItem('email', this.email);
-  };
-
-  isAuthenticatedByFb = params => {
-    if (!_.isEmpty(params) && params.access_token) {
-      this.accessToken = params.access_token;
-      return this.getFbProfile();
-    }
-
-    return new Promise(resolve => {
-      resolve({ authenticated: false });
-    });
-  };
-
-  getFbProfile = () => {
-    return fb.getProfile(this.accessToken).then(profile => {
-      if (profile.email) {
-        this.setFbProfile(profile);
-        return { authenticated: true };
-      } else {
-        return { authenticated: false };
-      }
-    });
-  };
-
-  setFbProfile = profile => {
-    this.name = profile.name;
-    this.email = profile.email;
-    this.id = profile.id;
-    this.image = fb.getPictureUrl(this.id);
-    this.setSession();
+  setSession = user => {
+    console.log(`setSession:${JSON.stringify(user)}`);
+    localStorage.setItem('token', user.token);
+    localStorage.setItem('csrf_token', user.csrf_token);
+    localStorage.setItem('expires_at', user.expires_at);
+    localStorage.setItem('user', JSON.stringify(user));
   };
 
   setGoogleProfile = profile => {
