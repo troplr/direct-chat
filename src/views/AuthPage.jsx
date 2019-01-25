@@ -3,9 +3,10 @@ import { withRouter } from 'react-router';
 import queryString from 'query-string';
 import _ from 'lodash';
 import api from 'utils/api';
+import auth from 'auth/auth';
 
 function AuthPage(props) {
-  const { auth, location, history } = props;
+  const { location, history } = props;
   const [isAuthenticated, setAuthenticated] = useState(undefined);
   const params = queryString.parse(location.hash);
 

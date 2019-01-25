@@ -1,7 +1,6 @@
 import React from 'react';
 import { createBrowserHistory } from 'history';
 import { Router, Route, Switch } from 'react-router-dom';
-import auth from 'auth/auth';
 import indexRoutes from 'routes/index.jsx';
 
 const hist = createBrowserHistory();
@@ -16,7 +15,7 @@ function App(props) {
               exact
               path={prop.path}
               key={key}
-              render={props => <prop.component auth={auth} />}
+              component={prop.component}
             />
           );
         })}

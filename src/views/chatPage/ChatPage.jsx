@@ -6,9 +6,10 @@ import chatPageStyle from 'assets/jss/chatPage/chatPage';
 import contactStore from 'stores/ContactStore';
 import notificationStore from 'stores/NotificationStore';
 import { withRouter } from 'react-router';
+import auth from 'auth/auth';
 
 function ChatPage(props) {
-  const { classes, auth, history } = props;
+  const { classes, history } = props;
   const isAuthed = auth.hasValidToken();
 
   const onContactClick = contact => {

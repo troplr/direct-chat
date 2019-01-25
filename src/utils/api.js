@@ -72,6 +72,10 @@ class Api {
   async createUserWithFbToken(token) {
     return await this.api('fb/createUser', token, false);
   }
+
+  async createUserWithGoogleToken(token) {
+    return await this.api('google/createUser', token, false);
+  }
 }
 
 export default new Api();

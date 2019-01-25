@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { IoLogoFacebook } from 'react-icons/io';
 import GridContainer from 'views/components/Grid/GridContainer.jsx';
@@ -11,114 +11,114 @@ import Tab from '@material-ui/core/Tab';
 import LoginCard from './LoginCard';
 import SignupCard from './SignupCard';
 import loginPageStyle from 'assets/jss/loginPage/loginPage';
-import image from 'assets/img/pattern.svg';
+import backGroundImage from 'assets/img/pattern.svg';
 import snowEffect from 'assets/js/snow-effect';
 import { withRouter } from 'react-router-dom';
+import { ReactComponent as Loading } from 'assets/img/loading.svg';
+import api from 'utils/api';
+import auth from 'auth/auth';
 
-class LoginPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      cardAnimaton: 'cardHidden',
-      tab: 0
-    };
-    this.history = props.history;
-    this.auth = props.auth;
-    this.form = {};
-    this.clientId = process.env.REACT_APP_FB_CLIENT_ID;
-    this.redirectUrl = process.env.REACT_APP_FB_REDIRECT;
-    this.appUrl = process.env.REACT_APP_URL;
-    this.fbLogin = `https://www.facebook.com/v3.2/dialog/oauth?
-      client_id=${this.clientId}&
-      redirect_uri=${this.redirectUrl}&
+function LoginPage(props) {
+  const { history, classes } = props;
+  const form = {};
+  const [tab, setTab] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  const clientId = process.env.REACT_APP_FB_CLIENT_ID;
+  const redirectUrl = process.env.REACT_APP_FB_REDIRECT;
+  const fbLogin = `https://www.facebook.com/v3.2/dialog/oauth?
+      client_id=${clientId}&
+      redirect_uri=${redirectUrl}&
       response_type=code token granted_scopes&
       auth_type=rerequest&
       scope=public_profile,email`;
-  }
-  componentDidMount() {
-    setTimeout(
-      function() {
-        this.setState({ cardAnimaton: '' });
-      }.bind(this),
-      700
-    );
+
+  useEffect(() => {
     snowEffect();
     window.gapi.signin2.render('g-signin2', {
       scope: 'https://www.googleapis.com/auth/plus.login',
       width: 25,
       height: 25,
-      onsuccess: this.onSignIn
+      onsuccess: onSignIn
     });
-  }
+  }, []);
 
-  handleTabChange = (event, tab) => {
-    this.setState({ tab });
+  const handleTabChange = (event, tab) => {
+    setTab(tab);
   };
 
-  removeSnow = () => {
+  const removeSnow = () => {
     var element = document.getElementById('snow-canvas');
     element.parentNode.removeChild(element);
   };
 
-  onSignIn = googleUser => {
-    const profile = googleUser.getBasicProfile();
-    if (profile.getEmail()) {
-      this.auth.setGoogleProfile(profile);
-      this.removeSnow();
-      this.history.push('/');
+  const onSignIn = async googleUser => {
+    const token = googleUser.getAuthResponse().id_token;
+    if (token) {
+      setLoading(true);
+      try {
+        const user = await api.createUserWithGoogleToken(token);
+        if (user) {
+          auth.setSession(user);
+          removeSnow();
+          history.replace('/');
+        }
+      } catch (error) {
+        setLoading(false);
+        history.replace('/login');
+      }
     }
   };
 
-  render() {
-    const { classes, ...props } = this.props;
-    const { tab } = this.state;
-
-    return (
-      <div
-        className={classes.pageHeader}
-        style={{
-          backgroundImage: 'url(' + image + ')',
-          backgroundSize: '100% 100%',
-          backgroundPosition: 'top center'
-        }}
-      >
-        <div className={classes.container}>
-          <GridContainer justify="center">
-            <GridItem xs={12} md={5} className={classes.cardGridItem}>
-              <Card className={classes[this.state.cardAnimaton]}>
-                <form className={classes.form}>
-                  <CardHeader color="primary" className={classes.cardHeader}>
-                    <h4 className={classes.title}>Direct Chat</h4>
-                    <div className={classes.socialLine}>
-                      <Button href={this.fbLogin} target="_self">
-                        <IoLogoFacebook
-                          className={classes.inputIcons}
-                          color="#3b5998"
-                        />
-                      </Button>
-                      <Button href={this.googleLogin} target="_self">
-                        <div className={classes.inputIcons} id="g-signin2" />
-                      </Button>
-                    </div>
-                  </CardHeader>
-                  <Tabs
-                    variant="fullWidth"
-                    value={tab}
-                    onChange={this.handleTabChange}
-                  >
-                    <Tab label="Log In" />
-                    <Tab label="Sign Up" />
-                  </Tabs>
-                  {tab === 0 && <LoginCard {...props} />}
-                  {tab === 1 && <SignupCard {...props} />}
-                </form>
-              </Card>
-            </GridItem>
-          </GridContainer>
-        </div>
-      </div>
-    );
+  if (loading) {
+    return <Loading />;
   }
+
+  return (
+    <div
+      className={classes.pageHeader}
+      style={{
+        backgroundImage: 'url(' + backGroundImage + ')',
+        backgroundSize: '100% 100%',
+        backgroundPosition: 'top center'
+      }}
+    >
+      <div className={classes.container}>
+        <GridContainer justify="center">
+          <GridItem xs={12} md={5} className={classes.cardGridItem}>
+            <Card>
+              <form className={classes.form}>
+                <CardHeader color="primary" className={classes.cardHeader}>
+                  <h4 className={classes.title}>Direct Chat</h4>
+                  <div className={classes.socialLine}>
+                    <Button href={fbLogin} target="_self">
+                      <IoLogoFacebook
+                        className={classes.inputIcons}
+                        color="#3b5998"
+                      />
+                    </Button>
+                    <Button target="_self">
+                      <div className={classes.inputIcons} id="g-signin2" />
+                    </Button>
+                  </div>
+                </CardHeader>
+                <Tabs
+                  variant="fullWidth"
+                  value={tab}
+                  onChange={handleTabChange}
+                >
+                  <Tab label="Log In" />
+                  <Tab label="Sign Up" />
+                </Tabs>
+                {tab === 0 && <LoginCard />}
+                {tab === 1 && <SignupCard />}
+              </form>
+            </Card>
+          </GridItem>
+        </GridContainer>
+      </div>
+    </div>
+  );
 }
 
 export default withRouter(withStyles(loginPageStyle)(LoginPage));

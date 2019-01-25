@@ -8,9 +8,10 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 import loginCardStyle from 'assets/jss/loginPage/loginCardStyle';
+import auth from 'auth/auth';
 
 function LoginCard(props) {
-  const { classes, auth } = props;
+  const { classes } = props;
   const form = {};
   const handleInputChange = name => event => {
     form[name] = event.target.value;
