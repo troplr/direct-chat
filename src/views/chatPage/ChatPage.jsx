@@ -17,8 +17,16 @@ function ChatPage(props) {
     console.log(contact.name);
   };
 
+  const removeSnow = () => {
+    const element = document.getElementById('snow-canvas');
+    if (element) {
+      element.parentNode.removeChild(element);
+    }
+  };
+
   useEffect(() => {
     if (isAuthed) {
+      removeSnow();
       contactStore.setMyContact(auth.getUser());
       contactStore.fetchAllContact();
       contactStore.fetchRecentChatContact();

@@ -9,16 +9,24 @@ import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 import loginCardStyle from 'assets/jss/loginPage/loginCardStyle';
 import auth from 'auth/auth';
+import api from 'utils/api';
+import { withRouter } from 'react-router';
 
 function LoginCard(props) {
-  const { classes } = props;
+  const { classes, history } = props;
+  const [rememberMeChecked, setRememberMe] = useState(true);
   const form = {};
+
   const handleInputChange = name => event => {
     form[name] = event.target.value;
     console.log(form);
   };
 
-  const [rememberMeChecked, setRememberMe] = useState(true);
+  const signin = async event => {
+    const user = await api.signin(form.email, form.pw);
+    auth.setSession(user);
+    history.replace('/');
+  };
 
   return (
     <React.Fragment>
@@ -33,9 +41,11 @@ function LoginCard(props) {
         <TextField
           id="pass"
           label="Password"
+          type="password"
+          autoComplete="current-password"
           margin="normal"
           fullWidth
-          onChange={handleInputChange('password')}
+          onChange={handleInputChange('pw')}
         />
         <Grid container direction="row" justify="center" alignItems="center">
           <FormControlLabel
@@ -54,7 +64,7 @@ function LoginCard(props) {
         <Button
           variant="contained"
           color="primary"
-          onClick={e => auth.login()}
+          onClick={signin}
           className={classes.button}
         >
           Log In
@@ -64,4 +74,4 @@ function LoginCard(props) {
   );
 }
 
-export default withStyles(loginCardStyle)(LoginCard);
+export default withRouter(withStyles(loginCardStyle)(LoginCard));

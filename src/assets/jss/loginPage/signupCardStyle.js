@@ -15,6 +15,16 @@ const signUpCardStyle = {
   },
   tooltip: {
     backgroundColor: 'black'
+  },
+  errorHint: {
+    top: '50%',
+    left: '50%',
+    position: 'absolute',
+    color: 'white',
+    backgroundColor: 'rgba(0, 0, 0, 0.87)',
+    boxShadow: '4px 6px 29px 5px rgba(255,255,255,0.75)',
+    padding: '2rem',
+    outline: 'none'
   }
 };
 

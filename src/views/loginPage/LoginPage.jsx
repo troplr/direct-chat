@@ -47,11 +47,6 @@ function LoginPage(props) {
     setTab(tab);
   };
 
-  const removeSnow = () => {
-    var element = document.getElementById('snow-canvas');
-    element.parentNode.removeChild(element);
-  };
-
   const onSignIn = async googleUser => {
     const token = googleUser.getAuthResponse().id_token;
     if (token) {
@@ -60,7 +55,6 @@ function LoginPage(props) {
         const user = await api.createUserWithGoogleToken(token);
         if (user) {
           auth.setSession(user);
-          removeSnow();
           history.replace('/');
         }
       } catch (error) {

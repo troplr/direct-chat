@@ -56,7 +56,6 @@ const loginPageStyle = {
   inputIcons: {
     backgroundColor: 'white',
     fontSize: '24px',
-    borderRadius: '3px',
     display: 'inline-block',
     height: '25px',
     width: '25px'

@@ -11,11 +11,11 @@ class ContactStore {
   @observable loadingAllContacts = true;
   @observable loadingRecentContacts = true;
 
-  getMyEmail() {
+  getMyEmail = () => {
     return this.myEmail;
-  }
+  };
 
-  fetchMyContact() {
+  fetchMyContact = () => {
     return this.fetchContact().then(myContact => {
       if (_.isEmpty(myContact)) {
         console.log('empty contact');
@@ -26,17 +26,16 @@ class ContactStore {
         return myContact;
       }
     });
-  }
+  };
 
-  fetchContact = () => {
-    return api.fetchMyContact().then(json => {
-      if (_.isEmpty(json)) {
-        return {};
-      } else {
-        this.setMyContact(json);
-        return this.myContact;
-      }
-    });
+  fetchContact = async () => {
+    const user = await api.fetchMyContact();
+    if (_.isEmpty(user)) {
+      return {};
+    } else {
+      this.setMyContact(user);
+      return this.myContact;
+    }
   };
 
   setMyContact(contact) {
@@ -55,8 +54,11 @@ class ContactStore {
   async fetchRecentChatContact() {
     this.loadingRecentContacts = true;
     const json = await api.fetchRecentChatContact();
-    this.setCurrentChat(json[0]);
-    json.forEach(action(contact => this.recentContacts.push(contact)));
+    if (json.length) {
+      this.setCurrentChat(json[0]);
+      json.forEach(action(contact => this.recentContacts.push(contact)));
+    }
+
     this.loadingRecentContacts = false;
   }
 

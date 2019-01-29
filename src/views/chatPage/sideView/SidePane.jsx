@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
 import { FaUsers, FaCog, FaComments, FaBell } from 'react-icons/fa';
 import EditableLabel from 'views/components/EditableLabel';
@@ -36,7 +36,13 @@ function SidePane(props) {
     window.location.href = '/login';
   };
 
-  if (contactStore.myContact === null) {
+  useEffect(() => {
+    if (contactStore.recentContacts.length === 0) {
+      setTab(1);
+    }
+  }, {});
+
+  if (contactStore.myContact === null || contactStore.loadingRecentContacts) {
     return <Loading />;
   }
 

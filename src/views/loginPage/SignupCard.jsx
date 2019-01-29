@@ -7,11 +7,16 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import signUpCardStyle from 'assets/jss/loginPage/signupCardStyle';
 import tool from 'utils/tool';
 import Tooltip from '@material-ui/core/Tooltip';
+import api from 'utils/api';
+import auth from 'auth/auth';
+import { withRouter } from 'react-router';
+import Modal from '@material-ui/core/Modal';
 
 function SignupCard(props) {
-  const { classes } = props;
+  const { classes, history } = props;
   const [openEmailError, setOpenEmailError] = useState(false);
   const [openPasswordError, setOpenPasswordError] = useState(false);
+  const [errorHintOpen, setErrorHintOpen] = useState(false);
   const [emailInput, setEmailInput] = useState('');
   const [pw1Input, setPw1] = useState('');
   const [pw2Input, setPw2] = useState('');
@@ -37,21 +42,53 @@ function SignupCard(props) {
 
   const handleSignUp = event => {
     event.preventDefault();
+    let hasError = false;
     if (!tool.validateEmail(emailInput)) {
+      hasError = true;
       setOpenEmailError(true);
     }
 
     if (pw1Input !== pw2Input) {
+      hasError = true;
       setOpenPasswordError(true);
     }
 
-    if (!openEmailError && !openPasswordError) {
+    if (!hasError) {
       console.log('valid register');
+      signup(emailInput, pw1Input);
     }
+  };
+
+  const signup = async (email, pw) => {
+    const response = await api.signup(email, pw);
+    if (response.status === 403) {
+      console.log('user already exists');
+      setErrorHintOpen(true);
+    } else {
+      auth.setSession(response.json);
+      history.replace('/');
+    }
+  };
+
+  const handleErrorHintClose = () => {
+    setErrorHintOpen(false);
   };
 
   return (
     <React.Fragment>
+      <Modal
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+        open={errorHintOpen}
+        onClose={handleErrorHintClose}
+      >
+        <div
+          style={{ transform: 'translate(-50%, -50%)' }}
+          className={classes.errorHint}
+        >
+          User already registered.
+        </div>
+      </Modal>
       <CardBody>
         <ErrorHint
           classes={classes}
@@ -128,4 +165,4 @@ function ErrorHint(props) {
   );
 }
 
-export default withStyles(signUpCardStyle)(SignupCard);
+export default withRouter(withStyles(signUpCardStyle)(SignupCard));

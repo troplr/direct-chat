@@ -9,12 +9,6 @@ class Api {
     let data = {};
 
     const response = await fetch(url, options);
-    if (response.status >= 400) {
-      const error = {
-        message: `Error on ${url} with status ${response.status}`
-      };
-      throw error;
-    }
     const text = await response.text();
     if (text) {
       data = JSON.parse(text);
@@ -46,35 +40,51 @@ class Api {
     };
 
     const response = await this.fetchJSON(this.prefix + method, options);
+    return response;
+  }
+
+  async signup(email, pw) {
+    return await this.api(`tokenfree/signup`, { email, pw }, false);
+  }
+
+  async signin(email, pw) {
+    const response = await this.api(`tokenfree/signin`, { email, pw }, false);
     return response.json;
   }
 
   async fetchMyContact() {
-    return await this.api(`fetchMyContact`);
+    const response = await this.api(`fetchMyContact`);
+    return response.json;
   }
 
   async fetchAllContact() {
-    return await this.api('fetchAllContact');
+    const response = await this.api('fetchAllContact');
+    return response.json;
   }
 
   async fetchNotifications() {
-    return await this.api('fetchNotifications');
+    const response = await this.api('fetchNotifications');
+    return response.json;
   }
 
   async fetchRecentChatContact() {
-    return await this.api('fetchRecentChatContact');
+    const response = await this.api('fetchRecentChatContact');
+    return response.json;
   }
 
   async createNewUser(user) {
-    await this.api('createNewUser', user);
+    const response = await this.api('createNewUser', user);
+    return response.json;
   }
 
   async createUserWithFbToken(token) {
-    return await this.api('fb/createUser', token, false);
+    const response = await this.api('tokenfree/fbCreateUser', token, false);
+    return response.json;
   }
 
   async createUserWithGoogleToken(token) {
-    return await this.api('google/createUser', token, false);
+    const response = await this.api('tokenfree/googleCreateUser', token, false);
+    return response.json;
   }
 }
 
