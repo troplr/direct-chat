@@ -33,14 +33,13 @@ function SettingPane(props) {
             checked={notificationSwitch}
             onChange={handleChange('notification')}
             value="notification"
-            color="primary"
           />
         }
         label="Notification"
         classes={{
-          label: classes.label
+          label: notificationSwitch ? classes.label : classes.lableInactive
         }}
-        className={classes.hoverUnderline}
+        className={classes.settingItem}
       />
       <FormControlLabel
         control={
@@ -48,14 +47,13 @@ function SettingPane(props) {
             checked={soundSwitch}
             onChange={handleChange('sound')}
             value="sound"
-            color="primary"
           />
         }
         label="Sound"
         classes={{
-          label: classes.label
+          label: soundSwitch ? classes.label : classes.lableInactive
         }}
-        className={classes.hoverUnderline}
+        className={classes.settingItem}
       />
       <FormControlLabel
         control={
@@ -63,14 +61,13 @@ function SettingPane(props) {
             checked={darkThemeSwitch}
             onChange={handleChange('dark-theme')}
             value="dark-theme"
-            color="primary"
           />
         }
         label="Dark Theme"
         classes={{
-          label: classes.label
+          label: darkThemeSwitch ? classes.label : classes.lableInactive
         }}
-        className={classes.hoverUnderline}
+        className={classes.settingItem}
       />
       <FormControlLabel
         control={
@@ -78,14 +75,13 @@ function SettingPane(props) {
             checked={embededWebPageSwitch}
             onChange={handleChange('embeded-webpage')}
             value="embeded-webpage"
-            color="primary"
           />
         }
         label="Embeded Webpage"
         classes={{
-          label: classes.label
+          label: embededWebPageSwitch ? classes.label : classes.lableInactive
         }}
-        className={classes.hoverUnderline}
+        className={classes.settingItem}
       />
     </FormGroup>
   );

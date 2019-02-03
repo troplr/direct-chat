@@ -10,11 +10,19 @@ const contactItemStyle = {
       top: '-0.5rem'
     }
   },
-  addContactButton: {
-    background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
-    color: 'white',
-    marginTop: '0.8rem',
-    marginLeft: '0.8rem'
+  searchOutline: {
+    color: 'black'
+  },
+  globalSearch: {
+    width: '3rem',
+    margin: '0',
+    marginLeft: '0.2rem',
+    marginTop: '1rem'
+  },
+  globalSearchLable: {
+    color: '#f50057',
+    fontWeight: 'bold',
+    marginBottom: '-1rem'
   }
 };
 

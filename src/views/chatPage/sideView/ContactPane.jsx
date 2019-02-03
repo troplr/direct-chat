@@ -5,16 +5,16 @@ import contactStyle from 'assets/jss/chatPage/sideView/contactStyle';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { List, ListItem } from '@material-ui/core';
 import classNames from 'classnames';
-import Zoom from '@material-ui/core/Zoom';
-import Fab from '@material-ui/core/Fab';
-import { FaPlusCircle as AddIcon } from 'react-icons/fa';
 import { observer } from 'mobx-react-lite';
 import contactStore from 'stores/ContactStore';
 import { ReactComponent as Loading } from 'assets/img/loading.svg';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
 function ContactPane(props) {
   const { classes, className, onContactClick } = props;
   const [activeIndex, setActiveIndex] = useState(0);
+  const [globalSearch, setGlobalSearch] = useState(false);
 
   const handleChange = name => event => {
     let searchText = event.target.value;
@@ -27,8 +27,8 @@ function ContactPane(props) {
     console.log(contact.name);
   };
 
-  const handleAddContact = () => {
-    console.log('add button clicked');
+  const handleGolbalSearchToggle = event => {
+    setGlobalSearch(event.target.checked);
   };
 
   if (contactStore.loadingAllContacts) {
@@ -44,21 +44,25 @@ function ContactPane(props) {
           type="search"
           className={classes.search}
           onChange={handleChange('search')}
+          InputProps={{
+            classes: {
+              root: classes.searchOutline
+            }
+          }}
         />
-        <Zoom
-          key="primary"
-          in={true}
-          timeout={{ enter: 300, exit: 300 }}
-          unmountOnExit
-        >
-          <Fab
-            size="small"
-            className={classes.addContactButton}
-            onClick={handleAddContact}
-          >
-            <AddIcon />
-          </Fab>
-        </Zoom>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={globalSearch}
+              onChange={handleGolbalSearchToggle}
+              value="Global"
+            />
+          }
+          classes={{ label: classes.globalSearchLable }}
+          className={classes.globalSearch}
+          labelPlacement="top"
+          label="Global"
+        />
       </div>
       <List
         dense

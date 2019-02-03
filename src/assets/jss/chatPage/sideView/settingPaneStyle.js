@@ -1,15 +1,23 @@
-import hoverUnderline from 'assets/jss/components/hoverUnderline';
-
+const label = {
+  display: 'unset',
+  fontWeight: 'bold',
+  color: 'rgba(4, 1, 19, 0.87)',
+  userSelect: 'none'
+};
 const settingPaneStyle = {
-  hoverUnderline,
   container: {
     padding: '1rem'
   },
-  label: {
-    display: 'unset',
-    fontWeight: '500',
-    color: 'rgba(4, 1, 19, 0.87)',
-    userSelect: 'none'
+  label,
+  lableInactive: {
+    ...label,
+    color: 'grey'
+  },
+  settingItem: {
+    margin: '0'
+    // '&:hover span:nth-child(2)': {
+    //   color: '#3f51b5'
+    // }
   }
 };
 export default settingPaneStyle;
