@@ -33,6 +33,9 @@ function SidePane(props) {
 
   const handleLogout = event => {
     auth.logout();
+    if (window.gapi.auth2) {
+      window.gapi.auth2.getAuthInstance().signOut();
+    }
     window.location.href = '/login';
   };
 
