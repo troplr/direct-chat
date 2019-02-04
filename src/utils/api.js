@@ -62,6 +62,11 @@ class Api {
     return response.json;
   }
 
+  async fetchContactsWithKeywords(keyword) {
+    const response = await this.api('fetchContactsWithKeywords', { keyword });
+    return response.json;
+  }
+
   async fetchNotifications() {
     const response = await this.api('fetchNotifications');
     return response.json;

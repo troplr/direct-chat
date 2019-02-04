@@ -13,12 +13,28 @@ import Switch from '@material-ui/core/Switch';
 
 function ContactPane(props) {
   const { classes, className, onContactClick } = props;
+  const [searchInput, setSearchInput] = useState('');
   const [activeIndex, setActiveIndex] = useState(0);
   const [globalSearch, setGlobalSearch] = useState(false);
 
-  const handleChange = name => event => {
+  const handleSearchInput = event => {
+    console.log(event.target.value);
     let searchText = event.target.value;
-    console.log(searchText);
+    setSearchInput(searchText);
+    if (searchText === '') {
+      if (globalSearch) {
+        contactStore.emptyAllContacts();
+      } else {
+        contactStore.resetAllContacts();
+      }
+      return;
+    }
+
+    if (globalSearch) {
+      contactStore.fetchContactsWithKeywords(searchText);
+    } else {
+      contactStore.filterAllContacts(searchText);
+    }
   };
 
   const handleContactClick = (contact, index) => () => {
@@ -28,7 +44,14 @@ function ContactPane(props) {
   };
 
   const handleGolbalSearchToggle = event => {
-    setGlobalSearch(event.target.checked);
+    const isGlobal = event.target.checked;
+    setGlobalSearch(isGlobal);
+    setSearchInput('');
+    if (isGlobal) {
+      contactStore.emptyAllContacts();
+    } else {
+      contactStore.resetAllContacts();
+    }
   };
 
   if (contactStore.loadingAllContacts) {
@@ -42,8 +65,9 @@ function ContactPane(props) {
           id="outlined-search"
           label="Search"
           type="search"
+          value={searchInput}
           className={classes.search}
-          onChange={handleChange('search')}
+          onChange={handleSearchInput}
           InputProps={{
             classes: {
               root: classes.searchOutline
@@ -58,7 +82,11 @@ function ContactPane(props) {
               value="Global"
             />
           }
-          classes={{ label: classes.globalSearchLable }}
+          classes={{
+            label: globalSearch
+              ? classes.globalSearchLable
+              : classes.globalSearchLableOff
+          }}
           className={classes.globalSearch}
           labelPlacement="top"
           label="Global"

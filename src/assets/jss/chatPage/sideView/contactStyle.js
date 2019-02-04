@@ -1,5 +1,10 @@
 import recentChatStyle from './recentChatStyle';
 
+const globalSearchLable = {
+  color: '#f50057',
+  fontWeight: 'bold',
+  marginBottom: '-1rem'
+};
 const contactItemStyle = {
   ...recentChatStyle,
   searchAndAddContact: { flexGrow: 0 },
@@ -19,10 +24,10 @@ const contactItemStyle = {
     marginLeft: '0.2rem',
     marginTop: '1rem'
   },
-  globalSearchLable: {
-    color: '#f50057',
-    fontWeight: 'bold',
-    marginBottom: '-1rem'
+  globalSearchLable,
+  globalSearchLableOff: {
+    ...globalSearchLable,
+    color: 'gray'
   }
 };
 

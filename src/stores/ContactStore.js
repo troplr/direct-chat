@@ -6,10 +6,11 @@ import _ from 'lodash';
 class ContactStore {
   @observable myContact = null;
   @observable currentChat = null;
-  @observable allContacts = [];
+  @observable allContacts = []; // all contacts to be displayed
   @observable recentContacts = [];
   @observable loadingAllContacts = true;
   @observable loadingRecentContacts = true;
+  allContactsAlways = [];
 
   getMyEmail = () => {
     return this.myEmail;
@@ -47,8 +48,23 @@ class ContactStore {
   async fetchAllContact() {
     this.loadingAllContacts = true;
     const json = await api.fetchAllContact();
-    json.forEach(action(contact => this.allContacts.push(contact)));
+    json.forEach(
+      action(contact => {
+        this.allContacts.push(contact);
+        this.allContactsAlways.push(contact);
+      })
+    );
     this.loadingAllContacts = false;
+  }
+
+  async fetchContactsWithKeywords(keyword) {
+    this.allContacts = [];
+    const json = await api.fetchContactsWithKeywords(keyword);
+    json.forEach(
+      action(contact => {
+        this.allContacts.push(contact);
+      })
+    );
   }
 
   async fetchRecentChatContact() {
@@ -66,6 +82,23 @@ class ContactStore {
     this.currentChat = contact;
     messageStore.setCurrentReciver(contact.email);
     messageStore.setRoomId(contact.email);
+  }
+
+  filterAllContacts(keyword) {
+    this.allContacts = this.allContactsAlways.filter(contact =>
+      contact.name.toLowerCase().includes(keyword.toLowerCase())
+    );
+  }
+
+  resetAllContacts() {
+    this.allContacts = [];
+    this.allContactsAlways.forEach(contact => {
+      this.allContacts.push(contact);
+    });
+  }
+
+  emptyAllContacts() {
+    this.allContacts = [];
   }
 }
 
